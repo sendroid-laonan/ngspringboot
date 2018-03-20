@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   }
 
   toProductDetails() {
-    this.router.navigate(['/product', 2]);
+    this.router.navigate(['/carousel', 2]);
   }
 
 }

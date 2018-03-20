@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Directive, ElementRef, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ProductService} from '../../shared/product.service';
 import {AnotherProductService} from '../../shared/another-product.service';
@@ -11,6 +11,11 @@ import {AnotherProductService} from '../../shared/another-product.service';
     provide: ProductService, useClass: AnotherProductService
   }]
 })
+
+@Directive({
+  selector: '[appScroll]'
+})
+
 export class ProductComponent implements OnInit {
 
   private products: Array<Product>;
@@ -23,7 +28,8 @@ export class ProductComponent implements OnInit {
   constructor(
     private routeInfo: ActivatedRoute,
     private productService: ProductService,
-    private anotherService: AnotherProductService
+    private anotherService: AnotherProductService,
+    private el: ElementRef
   ) { }
 
   ngOnInit() {
@@ -42,12 +48,19 @@ export class ProductComponent implements OnInit {
       this.product,
       this.anotherProduct,
     ];
-    // this.routeInfo.params.subscribe((params: Params) => this.productId = params['id']);
-    //
-    // this.routeInfo.data.subscribe((data: {product: Product}) => {
-    //   this.productId = data.product.id;
-    //   this.productTitle = data.product.title;
-    // });
+
+    this.routeInfo.params.subscribe((params: Params) => this.productId = params['id']);
+    this.routeInfo.data.subscribe((data: {product: Product}) => {
+      this.productId = data.product.id;
+      this.productTitle = data.product.title;
+    });
+  }
+
+  @Output()
+  scrollChange = new EventEmitter<number>();
+
+  @HostListener('scroll') onScroll() {
+    this.scrollChange.next(this.el.nativeElement);
   }
 
 }

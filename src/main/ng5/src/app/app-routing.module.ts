@@ -5,21 +5,26 @@ import {UnsavedGuard} from './components/guard/UnsavedGuard';
 import {ProductResolve} from './components/guard/ProductResolve';
 import {ProductComponent} from './components/product/product.component';
 import {HomeComponent} from './components/home/home.component';
+import {ChatComponent} from './components/chat/chat.component';
+import {CarouselComponent} from "./components/carousel/carousel.component";
+import {ProductDescComponent} from "./components/product-desc/product-desc.component";
+import {SellerInfoComponent} from "./components/seller-info/seller-info.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},
-  // { path: 'chat', component: ChatComponent, outlet: 'aux'},
-  { path: 'home', component: HomeComponent },
-  // { path: 'product/:id', component: ProductComponent, children: [
-    // {path: '', component: ProductDescComponent},
-    // {path: 'seller/:id', component: SellerInfoComponent}
-  // ] ,
+  { path: '', redirectTo: '/carousel', pathMatch: 'full'},
+  { path: 'chat', component: ChatComponent, outlet: 'aux'},
+  { path: 'home', component: HomeComponent},
+  { path: 'carousel', component: CarouselComponent },
+  { path: 'product/:id', component: ProductComponent, children: [
+    {path: '', component: ProductDescComponent},
+    {path: 'seller/:id', component: SellerInfoComponent}
+  ] ,
   //   resolve: {
   //   product: ProductResolve // resolve路由
   // },
   //   canActivate: [LoginGuard], canDeactivate: [UnsavedGuard]   // 进入目标路由、离开当前路由
-  // },
-  // { path: '**', component: Code404Component }
+  },
+  { path: '**', component: CarouselComponent }
 ];
 
 @NgModule({

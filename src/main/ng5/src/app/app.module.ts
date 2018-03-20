@@ -15,6 +15,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {ProductService} from './shared/product.service';
 import {AnotherProductService} from './shared/another-product.service';
 import {HomeComponent} from './components/home/home.component';
+import {ChatComponent} from "./components/chat/chat.component";
+import {ProductDetailComponent} from "./components/product-detail/product-detail.component";
+import {SellerInfoComponent} from "./components/seller-info/seller-info.component";
+import {ProductDescComponent} from "./components/product-desc/product-desc.component";
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import {HomeComponent} from './components/home/home.component';
     StarsComponent,
     NavbarComponent,
     HomeComponent,
+    ChatComponent,
+    ProductDetailComponent,
+    ProductDescComponent,
+    SellerInfoComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,6 @@
+.chat{
+  position: absolute;
+  z-index: 1000;
+  float: right;
+  margin-left: 80vw;
+}

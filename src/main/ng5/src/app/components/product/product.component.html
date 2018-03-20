@@ -1,8 +1,10 @@
-<div *ngFor="let product of products" class="col-lg-4 col-sm-6 no-margin" style="float: left">
+<div *ngFor="let product of products"
+     class="col-lg-4 col-sm-6 no-margin"
+     style="float: left">
   <div class="img-thumbnail">
     <img class="img-fluid" [src]="imgUrl"/>
     <div class="figure-caption">
-      <span class="pull-left col-7 product-title">{{product.title}}</span>
+        <span class="pull-left col-7 product-title">{{product.title}}</span>
       <span class="pull-right col-5 product-price">{{product.price}}元</span>
       <span class="col-12 product-desc">{{product.desc}}</span>
     </div>
