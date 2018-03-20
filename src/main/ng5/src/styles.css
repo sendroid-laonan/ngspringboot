@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+  width: 100%;
+  height: 100%;
+}
+
+.no-padding{
+  padding: 0!important;
+}
+
+.no-margin{
+  margin: 0!important;
+}
+
+#app-footer{
+  text-align: center;
+  height: 5vh;
+  color: #fff;
+}
+
+#search-view{
+  min-height: 87vh;
+  margin-top: 3vh;
+}
+
+#carousel-view{
+  margin-top: 3vh;
+  padding: 0;
+}
+
+#product-view{
+  text-align: left;
+}
+
+#app-footer button{
+  height: 100%;
+  border: 0;
+  background: rgba(0,0,0,0);
+  color: #fff;
+}
+
+app-product .img-thumbnail{
+  margin-top: 1vh;
+}
+
+app-product .img-thumbnail:last-child{
+  margin-bottom: 1vh;
+}
+
+app-stars .icon-star{
+  color: #ff9e04;
+}
+
+.product-title{
+  font-size: large;
+  color: #1a76dd;
+}
+
+.product-price{
+  font-size: large;
+}
+
+#bg-home{
+  height: 89.3vh;
+  background: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520250324474&di=bff7ddf8fa57b7fd2b14d2cf2cc73c81&imgtype=0&src=http%3A%2F%2Fdl.bizhi.sogou.com%2Fimages%2F2012%2F03%2F08%2F96703.jpg") no-repeat;
+  background-size: 100%;
+  position: absolute;
+  z-index: 2;
+}
+
+.opacity-10{
+  background: #ffffff;
+}
+
+.opacity-2{
+  background: rgba(0,0,0,0.2);
+}
+
+.h-3{
+  height: 30vh;
+}
+
+.h-3-5{
+  height: 35vh;
+}
+
+app-navbar{
+
+}
