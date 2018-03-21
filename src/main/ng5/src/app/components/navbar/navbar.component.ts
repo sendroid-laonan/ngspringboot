@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  navClass: Array<String>;
+
   constructor() { }
 
   ngOnInit() {
+    this.navClass = ["navbar-brand", "nav-link", "nav-link", "nav-link", "nav-link"];
   }
 
 }

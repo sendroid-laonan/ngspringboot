@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 declare var $: any;
 @Component({
   selector: 'app-chat',
@@ -7,9 +8,12 @@ declare var $: any;
 })
 export class ChatComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  closeAux(){
+    this.router.navigate([{outlets:{aux: null}}]);
+  }
 }

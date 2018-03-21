@@ -87,3 +87,28 @@ app-stars .icon-star{
 app-navbar{
 
 }
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+body::-webkit-scrollbar, .file_input::-webkit-scrollbar, .detail-pool::-webkit-scrollbar{
+  width: 6px;
+  height: 6px;
+  background-color: #F5F5F5;
+}
+
+body::-moz-scrolled-content, .file_input::-moz-scrolled-content, .detail-pool::-moz-scrolled-content{
+  width: 6px;
+  height: 6px;
+  background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+body::-webkit-scrollbar-track, .file_input::-webkit-scrollbar-track, .detail-pool::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+/*定义滑块 内阴影+圆角*/
+body::-webkit-scrollbar-thumb, .file_input::-webkit-scrollbar-thumb, .detail-pool::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.2);
+}

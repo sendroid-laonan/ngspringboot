@@ -2,11 +2,11 @@
      class="col-lg-4 col-sm-6 no-margin"
      style="float: left">
   <div class="img-thumbnail">
-    <img class="img-fluid" [src]="imgUrl"/>
+    <img class="img-fluid" src={{product.url}} style="height: 15vh;background-size: cover"/>
     <div class="figure-caption">
-        <span class="pull-left col-7 product-title">{{product.title}}</span>
+      <span class="pull-left col-7 product-title"><a [routerLink]="['/product', product.id]">{{product.title}}</a></span>
       <span class="pull-right col-5 product-price">{{product.price}}元</span>
-      <span class="col-12 product-desc">{{product.desc}}</span>
+      <span class="col-12 product-desc">{{product.remark}}</span>
     </div>
     <div>
       <app-stars [rating]="product.rating"></app-stars>

@@ -10,15 +10,15 @@ import { CarouselComponent } from './components/carousel/carousel.component';
 import { ProductComponent } from './components/product/product.component';
 import { StarsComponent } from './components/stars/stars.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import {AppRoutingModule} from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import {ProductService} from './shared/product.service';
-import {AnotherProductService} from './shared/another-product.service';
-import {HomeComponent} from './components/home/home.component';
-import {ChatComponent} from "./components/chat/chat.component";
-import {ProductDetailComponent} from "./components/product-detail/product-detail.component";
-import {SellerInfoComponent} from "./components/seller-info/seller-info.component";
-import {ProductDescComponent} from "./components/product-desc/product-desc.component";
+import { ProductService } from './shared/product.service';
+import { AnotherProductService } from './shared/another-product.service';
+import { HomeComponent} from './components/home/home.component';
+import { ChatComponent} from "./components/chat/chat.component";
+import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { HttpClientModule } from "@angular/common/http";
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -33,13 +33,13 @@ import {ProductDescComponent} from "./components/product-desc/product-desc.compo
     HomeComponent,
     ChatComponent,
     ProductDetailComponent,
-    ProductDescComponent,
-    SellerInfoComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,
     BsDropdownModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [ProductService, AnotherProductService],
   bootstrap: [AppComponent]

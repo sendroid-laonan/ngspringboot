@@ -1,3 +1,8 @@
-<p>
-  product-detail works!
-</p>
+<div class="col-sm-12" style="text-align: center;min-height: 89.3vh">
+  <button type="button" class="btn btn-primary" id="btn-return-products" (click)="returnProducts()">返回</button>
+  <p><img src={{product.url}} style="margin-top: 5vh;width: 40vw;height: 25vw;"></p>
+  <button class="col-sm-6 btn btn-default">商品编号：{{product.id}}</button>
+  <button class="col-sm-6 btn btn-default">商品名称：{{product.title}}</button>
+  <button class="col-sm-6 btn btn-default">商品价格：{{product.price}}</button>
+  <button class="col-sm-6 btn btn-default">商品详情：{{product.remark}}</button>
+</div>
