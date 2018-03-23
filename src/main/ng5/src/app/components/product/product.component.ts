@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
     //   this.productTitle = data.product.title;
     // });
 
-    this.url += "products";
+    this.url += "product/batch";
     this.http
       .request(
         "GET",

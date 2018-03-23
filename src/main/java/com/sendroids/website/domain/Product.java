@@ -3,8 +3,11 @@ package com.sendroids.website.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -21,13 +24,16 @@ public class Product extends BaseEntity implements Serializable{
 
     private int rating;
 
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
+    private Collection<Comment> comments;
+
     public String toString(){
         return "" + id +
                 "," + title +
                 "," + price +
                 "," + url +
-                "," + rating +
                 "," + remark +
+                "," + rating +
                 "";
     }
 }

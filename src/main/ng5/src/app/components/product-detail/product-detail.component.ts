@@ -26,7 +26,7 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     this.productId = this.routeInfo.snapshot.params["id"];
-    this.url += "product?id=" + this.productId;
+    this.url += "product/single?id=" + this.productId;
     this.http
       .request(
         "GET",

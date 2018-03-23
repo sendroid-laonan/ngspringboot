@@ -25,4 +25,8 @@ public class ProductService {
     public Optional<List<Product>> findAll(){
         return Optional.of(productRepository.findAll());
     }
+
+    public void add(Product product){
+        productRepository.save(product);
+    }
 }

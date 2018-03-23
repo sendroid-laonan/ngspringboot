@@ -19,6 +19,7 @@ import { ChatComponent} from "./components/chat/chat.component";
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { HttpClientModule } from "@angular/common/http";
 import { AddProductComponent } from './components/add-product/add-product.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,13 +34,15 @@ import { AddProductComponent } from './components/add-product/add-product.compon
     HomeComponent,
     ChatComponent,
     ProductDetailComponent,
-    AddProductComponent
+    AddProductComponent,
   ],
   imports: [
     BrowserModule,
     BsDropdownModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [ProductService, AnotherProductService],
   bootstrap: [AppComponent]

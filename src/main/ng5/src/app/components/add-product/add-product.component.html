@@ -1,10 +1,34 @@
 <div class="container" style="height:74.3vh">
   <div class="row col-sm-12" style="margin-top: 15vh">
-    <form class="col-sm-12" style="padding:20px">
-      <p class="col-sm-4 offset-4 form-group">商品名称<input type="text" class="form-control"/></p>
-      <p class="col-sm-4 offset-4 form-group">商品价格<input type="text" class="form-control"/></p>
-      <p class="col-sm-4 offset-4 form-group">商品详情<input type="text" class="form-control"/></p>
+    <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)"
+          action="/product/add"
+          method="post"
+          class="col-sm-12" style="padding:20px">
+      <div ngModelGroup="product">
+        <p class="col-sm-4 offset-4 form-group">
+          商品名称<input type="text" class="form-control" #title="ngModel" ngModel name="title"/>
+        </p>
+        <p class="col-sm-4 offset-4 form-group">
+          商品价格<input type="text" class="form-control" #price="ngModel" ngModel name="price"/>
+        </p>
+        <p class="col-sm-4 offset-4 form-group">
+          商品图片<input type="text" class="form-control" #url="ngModel" ngModel name="url"/>
+        </p>
+        <p class="col-sm-4 offset-4 form-group">
+          商品详情<input type="text" class="form-control" #remark="ngModel" ngModel name="remark"/>
+        </p>
+        <p class="col-sm-4 offset-4 form-group">
+          商品星评<input type="text" class="form-control" #rating="ngModel" ngModel name="rating"/>
+        </p>
+
+      </div>
       <button class="col-sm-2 offset-5 btn btn-success" type="submit">提交</button>
     </form>
   </div>
+</div>
+<div>
+  {{myForm.value | json}} {{title.value}}
+</div>
+<div>
+
 </div>

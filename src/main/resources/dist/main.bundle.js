@@ -38,12 +38,14 @@ var home_component_1 = __webpack_require__("./src/app/components/home/home.compo
 var chat_component_1 = __webpack_require__("./src/app/components/chat/chat.component.ts");
 var carousel_component_1 = __webpack_require__("./src/app/components/carousel/carousel.component.ts");
 var product_detail_component_1 = __webpack_require__("./src/app/components/product-detail/product-detail.component.ts");
+var add_product_component_1 = __webpack_require__("./src/app/components/add-product/add-product.component.ts");
 var routes = [
     { path: '', redirectTo: '/carousel', pathMatch: 'full' },
     { path: 'chat', component: chat_component_1.ChatComponent, outlet: 'aux' },
     { path: 'home', component: home_component_1.HomeComponent },
     { path: 'carousel/:id', component: carousel_component_1.CarouselComponent },
     { path: 'product/:id', component: product_detail_component_1.ProductDetailComponent },
+    { path: 'addProduct', component: add_product_component_1.AddProductComponent },
     // { path: 'product/:id', component: ProductDetailComponent, children: [
     // {path: '', component: ProductDescComponent},
     // {path: 'seller/:id', component: SellerInfoComponent}
@@ -178,6 +180,8 @@ var home_component_1 = __webpack_require__("./src/app/components/home/home.compo
 var chat_component_1 = __webpack_require__("./src/app/components/chat/chat.component.ts");
 var product_detail_component_1 = __webpack_require__("./src/app/components/product-detail/product-detail.component.ts");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var add_product_component_1 = __webpack_require__("./src/app/components/add-product/add-product.component.ts");
+var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -194,13 +198,16 @@ var AppModule = /** @class */ (function () {
                 navbar_component_1.NavbarComponent,
                 home_component_1.HomeComponent,
                 chat_component_1.ChatComponent,
-                product_detail_component_1.ProductDetailComponent
+                product_detail_component_1.ProductDetailComponent,
+                add_product_component_1.AddProductComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule,
                 dropdown_1.BsDropdownModule.forRoot(),
                 app_routing_module_1.AppRoutingModule,
-                http_1.HttpClientModule
+                http_1.HttpClientModule,
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule
             ],
             providers: [product_service_1.ProductService, another_product_service_1.AnotherProductService],
             bootstrap: [app_component_1.AppComponent]
@@ -209,6 +216,103 @@ var AppModule = /** @class */ (function () {
     return AppModule;
 }());
 exports.AppModule = AppModule;
+
+
+/***/ }),
+
+/***/ "./src/app/components/add-product/add-product.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/add-product/add-product.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\" style=\"height:74.3vh\">\n  <div class=\"row col-sm-12\" style=\"margin-top: 15vh\">\n    <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\n          action=\"/product/add\"\n          method=\"post\"\n          class=\"col-sm-12\" style=\"padding:20px\">\n      <div ngModelGroup=\"product\">\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品名称<input type=\"text\" class=\"form-control\" #title=\"ngModel\" ngModel name=\"title\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品价格<input type=\"text\" class=\"form-control\" #price=\"ngModel\" ngModel name=\"price\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品图片<input type=\"text\" class=\"form-control\" #url=\"ngModel\" ngModel name=\"url\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品详情<input type=\"text\" class=\"form-control\" #remark=\"ngModel\" ngModel name=\"remark\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品星评<input type=\"text\" class=\"form-control\" #rating=\"ngModel\" ngModel name=\"rating\"/>\n        </p>\n\n      </div>\n      <button class=\"col-sm-2 offset-5 btn btn-success\" type=\"submit\">提交</button>\n    </form>\n  </div>\n</div>\n<div>\n  {{myForm.value | json}} {{title.value}}\n</div>\n<div>\n\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/add-product/add-product.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var AddProductComponent = /** @class */ (function () {
+    function AddProductComponent(routeInfo, http) {
+        this.routeInfo = routeInfo;
+        this.http = http;
+        this.url = "http://localhost:8080/";
+        this.formModel = new forms_1.FormGroup({
+            product: new forms_1.FormControl()
+        });
+    }
+    AddProductComponent.prototype.ngOnInit = function () {
+    };
+    AddProductComponent.prototype.onSubmit = function (value) {
+        console.log(value);
+        var httpOptions = {
+            headers: new http_1.HttpHeaders({
+                'contentType': "application/x-www-form-urlencoded; charset=UTF-8"
+            })
+        };
+        this.url = "../product/add";
+        // this.http.post(this.url, value, httpOptions).subscribe(data =>{
+        //   console.log(data);
+        // })
+        $.ajax({
+            url: this.url,
+            type: "POST",
+            data: value,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            },
+        });
+    };
+    AddProductComponent = __decorate([
+        core_1.Component({
+            selector: 'app-add-product',
+            template: __webpack_require__("./src/app/components/add-product/add-product.component.html"),
+            styles: [__webpack_require__("./src/app/components/add-product/add-product.component.css")]
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            http_1.HttpClient])
+    ], AddProductComponent);
+    return AddProductComponent;
+}());
+exports.AddProductComponent = AddProductComponent;
+var Product = /** @class */ (function () {
+    function Product(id, title, price, url, remark, rating, comments) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.url = url;
+        this.remark = remark;
+        this.rating = rating;
+        this.comments = comments;
+    }
+    return Product;
+}());
+exports.Product = Product;
 
 
 /***/ }),
@@ -574,7 +678,7 @@ module.exports = ""
 /***/ "./src/app/components/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-md navbar-dark bg-primary\">\n  <div class=\"container\">\n    <a class=\"navbar-brand\" [routerLink]=\"['/carousel', 1]\">在线竞拍</a>\n    <button type=\"button\" class=\"navbar-toggler hidden-lg-up\" data-toggle=\"collapse\" data-target=\"#collapsibleNavbar\"\n            aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse navbar-toggleable-md\" id=\"collapsibleNavbar\">\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/home']\" >关于我们</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\" >添加商品</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">网站地图</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"[{outlets:{aux: 'chat'}}]\">开始聊天</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-expand-md navbar-dark bg-primary\">\n  <div class=\"container\">\n    <a class=\"navbar-brand\" [routerLink]=\"['/carousel', 1]\">在线竞拍</a>\n    <button type=\"button\" class=\"navbar-toggler hidden-lg-up\" data-toggle=\"collapse\" data-target=\"#collapsibleNavbar\"\n            aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse navbar-toggleable-md\" id=\"collapsibleNavbar\">\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/home']\" >关于我们</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/addProduct']\" >添加商品</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">网站地图</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"[{outlets:{aux: 'chat'}}]\">开始聊天</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -657,7 +761,7 @@ var ProductDetailComponent = /** @class */ (function () {
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.productId = this.routeInfo.snapshot.params["id"];
-        this.url += "product?id=" + this.productId;
+        this.url += "product/single?id=" + this.productId;
         this.http
             .request("GET", this.url, {
             responseType: "json",
@@ -762,7 +866,7 @@ var ProductComponent = /** @class */ (function () {
         //   this.productId = data.product.id;
         //   this.productTitle = data.product.title;
         // });
-        this.url += "products";
+        this.url += "product/batch";
         this.http
             .request("GET", this.url, {
             responseType: "json",

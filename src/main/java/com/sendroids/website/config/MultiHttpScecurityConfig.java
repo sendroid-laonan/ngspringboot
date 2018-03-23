@@ -122,7 +122,7 @@ public class MultiHttpScecurityConfig {
                     .authorizeRequests()
                     .antMatchers(UNAUTHORIZED_RESOURCE_LIST)
                     .permitAll()
-                    .antMatchers("/git", "/manage", "/manage/**", "/product", "/products")
+                    .antMatchers("/git", "/manage", "/manage/**", "/product/**")
                     .permitAll()
 //                    .antMatchers("/town/**", "/town")
 //                    .hasRole(Authority.Role.USER.toString())
