@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import {stringify} from "querystring";
+import {UserInfoService} from '../../service/user-info.service';
+import {ApiRequestService} from "../../service/api-request.service";
 
 @Component({
   selector: 'app-add-product',
@@ -12,6 +14,8 @@ import {stringify} from "querystring";
 export class AddProductComponent implements OnInit {
 
   url = "http://localhost:8080/";
+  private msg:httpMsg;
+  private display:any;
 
   formModel:FormGroup = new FormGroup({
     product: new FormControl()
@@ -19,35 +23,37 @@ export class AddProductComponent implements OnInit {
 
   constructor(
     private routeInfo: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private apiRequest: ApiRequestService,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.display = 'none';
+  }
+
+  getHeaders():HttpHeaders {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json;charset=utf-8');
+    return headers;
   }
 
   onSubmit(value:any){
     console.log(value);
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'contentType': "application/x-www-form-urlencoded; charset=UTF-8"
-      })
-    };
-    this.url = "../product/add";
-    // this.http.post(this.url, value, httpOptions).subscribe(data =>{
-    //   console.log(data);
-    // })
-    $.ajax({
-      url : this.url,
-      type : "POST",
-      data : value,
-      dataType : "json",
-      success : function (data) {
-        console.log(data);
-      },
-      error : function (data) {
-        console.log(data);
-      },
+    this.url = "../product/";
+    this.msg.info = null;
+    this.apiRequest.post(this.url, value).subscribe(data =>{
+      this.msg = data.valueOf();
+      this.display  =  'block';
     });
+  }
+
+  onSkip(value:string){
+    if(value == "success"){
+      this.router.navigate(['/carousel', 2]);
+    }else {
+      this.display = 'none';
+    }
   }
 
 }
@@ -62,6 +68,12 @@ export class Product {
     public rating: number,
     public comments: Array<any>
   ) {
+
+  }
+}
+
+export class httpMsg {
+  constructor(public info: string){
 
   }
 }

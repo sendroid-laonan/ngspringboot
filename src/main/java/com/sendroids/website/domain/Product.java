@@ -22,7 +22,7 @@ public class Product extends BaseEntity implements Serializable{
 
     private String remark;
 
-    private int rating;
+    private double rating;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
     private Collection<Comment> comments;

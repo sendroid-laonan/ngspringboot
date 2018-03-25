@@ -1,8 +1,46 @@
+<div id="msg-background" [ngStyle]="{'display': display}">
+  <div id="msg-view" class="col-4 offset-4">
+    <input id="info" class="col-12" type="button" *ngIf="display == 'block'" value="修改结果:{{msg.info}}"/>
+    <button class="btn btn-primary col-lg-2 offset-lg-8" id="btn-confirm"
+            *ngIf="display == 'block'" (click)="onSkip(msg.info)">确定</button>
+  </div>
+</div>
 <div class="col-sm-12" style="text-align: center;min-height: 89.3vh">
-  <button type="button" class="btn btn-primary" id="btn-return-products" (click)="returnProducts()">返回</button>
-  <p><img src={{product.url}} style="margin-top: 5vh;width: 40vw;height: 25vw;"></p>
-  <button class="col-sm-6 btn btn-default">商品编号：{{product.id}}</button>
-  <button class="col-sm-6 btn btn-default">商品名称：{{product.title}}</button>
-  <button class="col-sm-6 btn btn-default">商品价格：{{product.price}}</button>
-  <button class="col-sm-6 btn btn-default">商品详情：{{product.remark}}</button>
+  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)"
+        action="/product/"
+        method="put"
+        class="col-sm-12" style="padding:20px">
+    <button type="button" class="btn btn-primary" id="btn-return-products" (click)="returnProducts()">返回</button>
+    <p><img src={{product.url}} style="margin-top: 5vh;width: 40vw;height: 25vw;"></p>
+    <input type="hidden" [(ngModel)]="product.url" value="{{product.url}}" name="url"/>
+    <div class="col-sm-6 offset-4 input-group">
+      <button class="btn btn-info">商品编号：</button>
+      <input type="text" class="form-control col-7"
+             value="{{product.id}}" #id="ngModel" [(ngModel)]="product.id" name="id"/>
+    </div>
+    <div class="col-sm-6 offset-4 input-group">
+      <button class="btn btn-info">商品名称：</button>
+      <input type="text" class="form-control col-7"
+             value="{{product.title}}" #title="ngModel" [(ngModel)]="product.title" name="title"/>
+    </div>
+    <div class="col-sm-6 offset-4 input-group">
+      <button class="btn btn-info">商品价格：</button>
+      <input type="text" class="form-control col-7"
+             value="{{product.price}}" #price="ngModel" [(ngModel)]="product.price" name="price"/>
+    </div>
+    <div class="col-sm-6 offset-4 input-group">
+      <button class="btn btn-info">商品详情：</button>
+      <input type="text" class="form-control col-7"
+             value="{{product.remark}}" #remark="ngModel" [(ngModel)]="product.remark" name="remark"/>
+    </div>
+    <div class="col-sm-6 offset-4 input-group">
+      <button class="btn btn-info">商品评价：</button>
+      <input type="text" class="form-control col-7" readonly
+             value="{{product.rating}}" #rating="ngModel" [(ngModel)]="product.rating" name="rating"/>
+    </div>
+
+    <div class="col-12">
+      <button class="col-lg-1 btn btn-success" id="btn-update" type="submit">修改</button>
+    </div>
+  </form>
 </div>

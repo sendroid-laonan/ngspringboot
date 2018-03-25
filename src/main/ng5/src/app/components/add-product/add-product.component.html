@@ -1,10 +1,16 @@
+<div id="msg-background" [ngStyle]="{'display': display}">
+  <div id="msg-view" class="col-4 offset-4">
+    <input id="info" class="col-12" type="button" value="添加结果:{{msg.info}}"/>
+    <button class="btn btn-primary col-lg-2 offset-lg-8" id="btn-confirm" (click)="onSkip(msg.info)">确定</button>
+  </div>
+</div>
 <div class="container" style="height:74.3vh">
   <div class="row col-sm-12" style="margin-top: 15vh">
     <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)"
-          action="/product/add"
+          action="/product/"
           method="post"
           class="col-sm-12" style="padding:20px">
-      <div ngModelGroup="product">
+      <div>
         <p class="col-sm-4 offset-4 form-group">
           商品名称<input type="text" class="form-control" #title="ngModel" ngModel name="title"/>
         </p>

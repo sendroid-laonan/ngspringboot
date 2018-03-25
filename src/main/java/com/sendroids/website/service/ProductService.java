@@ -26,7 +26,11 @@ public class ProductService {
         return Optional.of(productRepository.findAll());
     }
 
-    public void add(Product product){
-        productRepository.save(product);
+    public Optional<Product> add(Product product){
+        return Optional.ofNullable(productRepository.save(product));
+    }
+
+    public Optional<Product> update(Product product){
+        return Optional.ofNullable(productRepository.saveAndFlush(product));
     }
 }

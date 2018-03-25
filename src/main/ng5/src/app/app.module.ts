@@ -20,6 +20,9 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { HttpClientModule } from "@angular/common/http";
 import { AddProductComponent } from './components/add-product/add-product.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AppConfig} from "../../app-config";
+import {ApiRequestService} from "./service/api-request.service";
+import {UserInfoService} from "./service/user-info.service";
 
 @NgModule({
   declarations: [
@@ -44,7 +47,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductService, AnotherProductService],
+  providers: [
+    ProductService,
+    AnotherProductService,
+    ApiRequestService,
+    UserInfoService,
+    AppConfig,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

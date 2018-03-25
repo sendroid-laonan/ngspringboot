@@ -1,20 +1,23 @@
 package com.sendroids.website.controller;
 
+import com.sendroids.website.domain.HttpMsg;
 import com.sendroids.website.domain.Product;
 import com.sendroids.website.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Controller
 @Slf4j
-@RequestMapping("/product")
+@RestController
+@RequestMapping(value = "/product", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
 
     private final ProductService productService;
@@ -41,11 +44,35 @@ public class ProductController {
         return products;
     }
 
-    @PostMapping("/add")
-    public @ResponseBody String addProduct(@Param("product") Product product,
+    @PostMapping(value = "/", produces = {"application/json;charset=utf-8"})
+    @ResponseBody
+    public HttpMsg addProduct(@RequestBody Product product,
                              HttpServletResponse response){
-        System.out.println(666);
+        String msg = "error";
+        if(product.getUrl() == null || Objects.equals(product.getUrl(), "")){
+            product.setUrl("http://placehold.it/820x230");
+        }
+        Product  newProduct = productService.add(product).orElse(new Product());
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return "success";
+        if(newProduct.getId() != null){
+            msg = "success";
+        }
+        HttpMsg httpMsg = new HttpMsg();
+        httpMsg.setInfo(msg);
+        return httpMsg;
+    }
+
+    @PutMapping(value = "/", produces = {"application/json;charset=utf-8"})
+    @ResponseBody
+    public HttpMsg updateProduct(@RequestBody Product product,
+                                HttpServletResponse response){
+        String  msg = "error";
+        Product newProduct = productService.update(product).orElse(new Product());
+        if(newProduct.getId() != null){
+            msg = "success";
+        }
+        HttpMsg httpMsg = new HttpMsg();
+        httpMsg.setInfo(msg);
+        return httpMsg;
     }
 }
