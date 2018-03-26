@@ -41,7 +41,6 @@ export class AddProductComponent implements OnInit {
   onSubmit(value:any){
     console.log(value);
     this.url = "../product/";
-    this.msg.info = null;
     this.apiRequest.post(this.url, value).subscribe(data =>{
       this.msg = data.valueOf();
       this.display  =  'block';

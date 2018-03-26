@@ -1,5 +1,63 @@
 webpackJsonp(["main"],{
 
+/***/ "./app-config.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/**
+ * This is a singleton class
+ */
+var AppConfig = /** @class */ (function () {
+    function AppConfig() {
+        //Provide all the Application Configs here
+        this.version = "1.0.0";
+        this.locale = "en-US";
+        this.currencyFormat = { style: "currency", currency: "USD" };
+        this.dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
+        // API Related configs
+        this.apiPort = "9119";
+        if (this.apiProtocol === undefined) {
+            this.apiProtocol = window.location.protocol;
+        }
+        if (this.apiHostName === undefined) {
+            this.apiHostName = window.location.hostname;
+        }
+        if (this.apiPort === undefined) {
+            this.apiPort = window.location.port;
+        }
+        if (this.apiHostName.includes("infomud") || this.apiHostName.includes("heroku")) {
+            this.baseApiPath = this.apiProtocol + "//" + this.apiHostName + "/";
+        }
+        else {
+            this.baseApiPath = this.apiProtocol + "//" + this.apiHostName + ":" + this.apiPort + "/";
+        }
+        if (this.locale === undefined) {
+            this.locale = navigator.language;
+        }
+    }
+    AppConfig = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], AppConfig);
+    return AppConfig;
+}());
+exports.AppConfig = AppConfig;
+
+
+/***/ }),
+
 /***/ "./src/$$_lazy_route_resource lazy recursive":
 /***/ (function(module, exports) {
 
@@ -182,6 +240,9 @@ var product_detail_component_1 = __webpack_require__("./src/app/components/produ
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var add_product_component_1 = __webpack_require__("./src/app/components/add-product/add-product.component.ts");
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var app_config_1 = __webpack_require__("./app-config.ts");
+var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
+var user_info_service_1 = __webpack_require__("./src/app/service/user-info.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -209,7 +270,13 @@ var AppModule = /** @class */ (function () {
                 forms_1.FormsModule,
                 forms_1.ReactiveFormsModule
             ],
-            providers: [product_service_1.ProductService, another_product_service_1.AnotherProductService],
+            providers: [
+                product_service_1.ProductService,
+                another_product_service_1.AnotherProductService,
+                api_request_service_1.ApiRequestService,
+                user_info_service_1.UserInfoService,
+                app_config_1.AppConfig,
+            ],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -223,14 +290,14 @@ exports.AppModule = AppModule;
 /***/ "./src/app/components/add-product/add-product.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "#msg-background{\r\n  width: 100vw;\r\n  height: 100vh;\r\n  background: rgba(0,0,0,0.5);\r\n  position: absolute;\r\n  z-index: 50000;\r\n  text-align: center;\r\n}\r\n\r\n#msg-view{\r\n  margin-top: 10vh;\r\n  height: 20vh;\r\n  background: #fff;\r\n  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n          box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n  border-radius: 1rem;\r\n}\r\n\r\n#info{\r\n  height: 70%;\r\n  border: 0;\r\n  background: #fff;\r\n  border-bottom: solid 1px rgba(0,0,0,0.1);\r\n}\r\n\r\n#btn-confirm{\r\n  margin-top: 1vh;\r\n}\r\n"
 
 /***/ }),
 
 /***/ "./src/app/components/add-product/add-product.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" style=\"height:74.3vh\">\n  <div class=\"row col-sm-12\" style=\"margin-top: 15vh\">\n    <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\n          action=\"/product/add\"\n          method=\"post\"\n          class=\"col-sm-12\" style=\"padding:20px\">\n      <div ngModelGroup=\"product\">\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品名称<input type=\"text\" class=\"form-control\" #title=\"ngModel\" ngModel name=\"title\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品价格<input type=\"text\" class=\"form-control\" #price=\"ngModel\" ngModel name=\"price\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品图片<input type=\"text\" class=\"form-control\" #url=\"ngModel\" ngModel name=\"url\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品详情<input type=\"text\" class=\"form-control\" #remark=\"ngModel\" ngModel name=\"remark\"/>\n        </p>\n        <p class=\"col-sm-4 offset-4 form-group\">\n          商品星评<input type=\"text\" class=\"form-control\" #rating=\"ngModel\" ngModel name=\"rating\"/>\n        </p>\n\n      </div>\n      <button class=\"col-sm-2 offset-5 btn btn-success\" type=\"submit\">提交</button>\n    </form>\n  </div>\n</div>\n<div>\n  {{myForm.value | json}} {{title.value}}\n</div>\n<div>\n\n</div>\n"
+module.exports = "<div id=\"msg-background\" [ngStyle]=\"{'display': display}\">\r\n  <div id=\"msg-view\" class=\"col-4 offset-4\">\r\n    <input id=\"info\" class=\"col-12\" type=\"button\"\r\n           *ngIf=\"display == 'block'\" value=\"添加结果:{{msg.info}}\"/>\r\n    <button class=\"btn btn-primary col-lg-2 offset-lg-8\" id=\"btn-confirm\"\r\n            *ngIf=\"display == 'block'\" (click)=\"onSkip(msg.info)\">确定</button>\r\n  </div>\r\n</div>\r\n<div class=\"container\" style=\"height:74.3vh\">\r\n  <div class=\"row col-sm-12\" style=\"margin-top: 15vh\">\r\n    <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\r\n          action=\"/product/\"\r\n          method=\"post\"\r\n          class=\"col-sm-12\" style=\"padding:20px\">\r\n      <div>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品名称<input type=\"text\" class=\"form-control\" #title=\"ngModel\" ngModel name=\"title\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品价格<input type=\"text\" class=\"form-control\" #price=\"ngModel\" ngModel name=\"price\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品图片<input type=\"text\" class=\"form-control\" #url=\"ngModel\" ngModel name=\"url\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品详情<input type=\"text\" class=\"form-control\" #remark=\"ngModel\" ngModel name=\"remark\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品星评<input type=\"text\" class=\"form-control\" #rating=\"ngModel\" ngModel name=\"rating\"/>\r\n        </p>\r\n\r\n      </div>\r\n      <button class=\"col-sm-2 offset-5 btn btn-success\" type=\"submit\">提交</button>\r\n    </form>\r\n  </div>\r\n</div>\r\n<div>\r\n  {{myForm.value | json}} {{title.value}}\r\n</div>\r\n<div>\r\n\r\n</div>\r\n"
 
 /***/ }),
 
@@ -253,40 +320,42 @@ var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
 var AddProductComponent = /** @class */ (function () {
-    function AddProductComponent(routeInfo, http) {
+    function AddProductComponent(routeInfo, http, apiRequest, router) {
         this.routeInfo = routeInfo;
         this.http = http;
+        this.apiRequest = apiRequest;
+        this.router = router;
         this.url = "http://localhost:8080/";
         this.formModel = new forms_1.FormGroup({
             product: new forms_1.FormControl()
         });
     }
     AddProductComponent.prototype.ngOnInit = function () {
+        this.display = 'none';
+    };
+    AddProductComponent.prototype.getHeaders = function () {
+        var headers = new http_1.HttpHeaders();
+        headers = headers.append('Content-Type', 'application/json;charset=utf-8');
+        return headers;
     };
     AddProductComponent.prototype.onSubmit = function (value) {
+        var _this = this;
         console.log(value);
-        var httpOptions = {
-            headers: new http_1.HttpHeaders({
-                'contentType': "application/x-www-form-urlencoded; charset=UTF-8"
-            })
-        };
-        this.url = "../product/add";
-        // this.http.post(this.url, value, httpOptions).subscribe(data =>{
-        //   console.log(data);
-        // })
-        $.ajax({
-            url: this.url,
-            type: "POST",
-            data: value,
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (data) {
-                console.log(data);
-            },
+        this.url = "../product/";
+        this.apiRequest.post(this.url, value).subscribe(function (data) {
+            _this.msg = data.valueOf();
+            _this.display = 'block';
         });
+    };
+    AddProductComponent.prototype.onSkip = function (value) {
+        if (value == "success") {
+            this.router.navigate(['/carousel', 2]);
+        }
+        else {
+            this.display = 'none';
+        }
     };
     AddProductComponent = __decorate([
         core_1.Component({
@@ -295,7 +364,9 @@ var AddProductComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/components/add-product/add-product.component.css")]
         }),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            http_1.HttpClient])
+            http_1.HttpClient,
+            api_request_service_1.ApiRequestService,
+            router_1.Router])
     ], AddProductComponent);
     return AddProductComponent;
 }());
@@ -313,6 +384,13 @@ var Product = /** @class */ (function () {
     return Product;
 }());
 exports.Product = Product;
+var httpMsg = /** @class */ (function () {
+    function httpMsg(info) {
+        this.info = info;
+    }
+    return httpMsg;
+}());
+exports.httpMsg = httpMsg;
 
 
 /***/ }),
@@ -722,14 +800,14 @@ exports.NavbarComponent = NavbarComponent;
 /***/ "./src/app/components/product-detail/product-detail.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "#btn-return-products{\r\n  margin-top: 1vh;\r\n  float: left;\r\n  position: absolute;\r\n  left: 10vw;\r\n}\r\n"
+module.exports = "#btn-return-products{\r\n  margin-top: 1vh;\r\n  float: left;\r\n  position: absolute;\r\n  left: 10vw;\r\n}\r\n\r\n#msg-background{\r\n  width: 100vw;\r\n  height: 100vh;\r\n  background: rgba(0,0,0,0.5);\r\n  position: absolute;\r\n  z-index: 50000;\r\n  text-align: center;\r\n}\r\n\r\n#msg-view{\r\n  margin-top: 10vh;\r\n  height: 20vh;\r\n  background: #fff;\r\n  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n          box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n  border-radius: 1rem;\r\n}\r\n\r\n#info{\r\n  height: 70%;\r\n  border: 0;\r\n  background: #fff;\r\n  border-bottom: solid 1px rgba(0,0,0,0.1);\r\n}\r\n\r\n#btn-confirm{\r\n  margin-top: 1vh;\r\n}\r\n\r\n#btn-update{\r\n  margin-top: 1vh;\r\n}\r\n\r\n.input-group{\r\n  margin-top: 3px;\r\n}\r\n"
 
 /***/ }),
 
 /***/ "./src/app/components/product-detail/product-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-12\" style=\"text-align: center;min-height: 89.3vh\">\n  <button type=\"button\" class=\"btn btn-primary\" id=\"btn-return-products\" (click)=\"returnProducts()\">返回</button>\n  <p><img src={{product.url}} style=\"margin-top: 5vh;width: 40vw;height: 25vw;\"></p>\n  <button class=\"col-sm-6 btn btn-default\">商品编号：{{product.id}}</button>\n  <button class=\"col-sm-6 btn btn-default\">商品名称：{{product.title}}</button>\n  <button class=\"col-sm-6 btn btn-default\">商品价格：{{product.price}}</button>\n  <button class=\"col-sm-6 btn btn-default\">商品详情：{{product.remark}}</button>\n</div>\n"
+module.exports = "<div id=\"msg-background\" [ngStyle]=\"{'display': display}\">\r\n  <div id=\"msg-view\" class=\"col-4 offset-4\">\r\n    <input id=\"info\" class=\"col-12\" type=\"button\" *ngIf=\"display == 'block'\" value=\"修改结果:{{msg.info}}\"/>\r\n    <button class=\"btn btn-primary col-lg-2 offset-lg-8\" id=\"btn-confirm\"\r\n            *ngIf=\"display == 'block'\" (click)=\"onSkip(msg.info)\">确定</button>\r\n  </div>\r\n</div>\r\n<div class=\"col-sm-12\" style=\"text-align: center;min-height: 89.3vh\">\r\n  <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\r\n        action=\"/product/\"\r\n        method=\"put\"\r\n        class=\"col-sm-12\" style=\"padding:20px\">\r\n    <button type=\"button\" class=\"btn btn-primary\" id=\"btn-return-products\" (click)=\"returnProducts()\">返回</button>\r\n    <p><img src={{product.url}} style=\"margin-top: 5vh;width: 40vw;height: 25vw;\"></p>\r\n    <input type=\"hidden\" [(ngModel)]=\"product.url\" value=\"{{product.url}}\" name=\"url\"/>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品编号：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.id}}\" #id=\"ngModel\" [(ngModel)]=\"product.id\" name=\"id\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品名称：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.title}}\" #title=\"ngModel\" [(ngModel)]=\"product.title\" name=\"title\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品价格：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.price}}\" #price=\"ngModel\" [(ngModel)]=\"product.price\" name=\"price\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品详情：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.remark}}\" #remark=\"ngModel\" [(ngModel)]=\"product.remark\" name=\"remark\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品评价：</button>\r\n      <input type=\"text\" class=\"form-control col-7\" readonly\r\n             value=\"{{product.rating}}\" #rating=\"ngModel\" [(ngModel)]=\"product.rating\" name=\"rating\"/>\r\n    </div>\r\n\r\n    <div class=\"col-12\">\r\n      <button class=\"col-lg-1 btn btn-success\" id=\"btn-update\" type=\"submit\">修改</button>\r\n    </div>\r\n  </form>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -751,15 +829,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
 var ProductDetailComponent = /** @class */ (function () {
-    function ProductDetailComponent(routeInfo, http) {
+    function ProductDetailComponent(routeInfo, http, apiRequest, router) {
         this.routeInfo = routeInfo;
         this.http = http;
+        this.apiRequest = apiRequest;
+        this.router = router;
         this.products = [];
         this.url = "http://localhost:8080/";
     }
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.display = 'none';
         this.productId = this.routeInfo.snapshot.params["id"];
         this.url += "product/single?id=" + this.productId;
         this.http
@@ -767,6 +849,22 @@ var ProductDetailComponent = /** @class */ (function () {
             responseType: "json",
             params: { "contentType": "application/json;charset=utf-8" }
         }).subscribe(function (data) { return _this.product = data.valueOf(); });
+    };
+    ProductDetailComponent.prototype.onSubmit = function (value) {
+        var _this = this;
+        this.url = "../product/";
+        this.apiRequest.put(this.url, value).subscribe(function (data) {
+            _this.msg = data.valueOf();
+            _this.display = 'block';
+        });
+    };
+    ProductDetailComponent.prototype.onSkip = function (value) {
+        if (value == "success") {
+            this.router.navigate(['/carousel', 2]);
+        }
+        else {
+            this.display = 'none';
+        }
     };
     ProductDetailComponent.prototype.returnProducts = function () {
         history.back();
@@ -779,7 +877,9 @@ var ProductDetailComponent = /** @class */ (function () {
         }),
         core_1.Injectable(),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            http_1.HttpClient])
+            http_1.HttpClient,
+            api_request_service_1.ApiRequestService,
+            router_1.Router])
     ], ProductDetailComponent);
     return ProductDetailComponent;
 }());
@@ -795,6 +895,13 @@ var Product = /** @class */ (function () {
     return Product;
 }());
 exports.Product = Product;
+var httpMsg = /** @class */ (function () {
+    function httpMsg(info) {
+        this.info = info;
+    }
+    return httpMsg;
+}());
+exports.httpMsg = httpMsg;
 
 
 /***/ }),
@@ -1028,6 +1135,176 @@ var StarsComponent = /** @class */ (function () {
     return StarsComponent;
 }());
 exports.StarsComponent = StarsComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/service/api-request.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var rxjs_1 = __webpack_require__("./node_modules/rxjs/Rx.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
+var user_info_service_1 = __webpack_require__("./src/app/service/user-info.service.ts");
+var app_config_1 = __webpack_require__("./app-config.ts");
+var ApiRequestService = /** @class */ (function () {
+    function ApiRequestService(appConfig, http, router, userInfoService) {
+        this.appConfig = appConfig;
+        this.http = http;
+        this.router = router;
+        this.userInfoService = userInfoService;
+    }
+    /**
+     * This is a Global place to add all the request headers for every REST calls
+     */
+    ApiRequestService.prototype.getHeaders = function () {
+        var headers = new http_1.HttpHeaders();
+        var token = this.userInfoService.getStoredToken();
+        headers = headers.append('Content-Type', 'application/json');
+        if (token !== null) {
+            headers = headers.append("Authorization", token);
+        }
+        return headers;
+    };
+    ApiRequestService.prototype.get = function (url, urlParams) {
+        var me = this;
+        return this.http.get(url, { headers: this.getHeaders(), params: urlParams })
+            .catch(function (error) {
+            console.log("Some error in catch");
+            if (error.status === 401 || error.status === 403) {
+                me.router.navigate(['/logout']);
+            }
+            return rxjs_1.Observable.throw(error || 'Server error');
+        });
+    };
+    ApiRequestService.prototype.post = function (url, body) {
+        var me = this;
+        return this.http.post(url, JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(function (error) {
+            if (error.status === 401) {
+                me.router.navigate(['/logout']);
+            }
+            return rxjs_1.Observable.throw(error || 'Server error');
+        });
+    };
+    ApiRequestService.prototype.put = function (url, body) {
+        var me = this;
+        return this.http.put(url, JSON.stringify(body), { headers: this.getHeaders() })
+            .catch(function (error) {
+            if (error.status === 401) {
+                me.router.navigate(['/logout']);
+            }
+            return rxjs_1.Observable.throw(error || 'Server error');
+        });
+    };
+    ApiRequestService.prototype.delete = function (url) {
+        var me = this;
+        return this.http.delete(url, { headers: this.getHeaders() })
+            .catch(function (error) {
+            if (error.status === 401) {
+                me.router.navigate(['/logout']);
+            }
+            return rxjs_1.Observable.throw(error || 'Server error');
+        });
+    };
+    ApiRequestService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [app_config_1.AppConfig,
+            http_1.HttpClient,
+            router_1.Router,
+            user_info_service_1.UserInfoService])
+    ], ApiRequestService);
+    return ApiRequestService;
+}());
+exports.ApiRequestService = ApiRequestService;
+
+
+/***/ }),
+
+/***/ "./src/app/service/user-info.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var UserInfoService = /** @class */ (function () {
+    function UserInfoService() {
+        this.currentUserKey = "currentUser";
+        this.storage = sessionStorage; // <--- you may switch between sessionStorage or LocalStrage (only one place to change)
+    }
+    //Store userinfo from session storage
+    UserInfoService.prototype.storeUserInfo = function (userInfoString) {
+        this.storage.setItem(this.currentUserKey, userInfoString);
+    };
+    //Remove userinfo from session storage
+    UserInfoService.prototype.removeUserInfo = function () {
+        this.storage.removeItem(this.currentUserKey);
+    };
+    //Get userinfo from session storage
+    UserInfoService.prototype.getUserInfo = function () {
+        try {
+            var userInfoString = this.storage.getItem(this.currentUserKey);
+            if (userInfoString) {
+                var userObj = JSON.parse(this.storage.getItem(this.currentUserKey));
+                return userObj;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (e) {
+            return null;
+        }
+    };
+    UserInfoService.prototype.isLoggedIn = function () {
+        return this.storage.getItem(this.currentUserKey) ? true : false;
+    };
+    //Get User's Display name from session storage
+    UserInfoService.prototype.getUserName = function () {
+        var userObj = this.getUserInfo();
+        if (userObj !== null) {
+            return userObj.displayName;
+        }
+        return "no-user";
+    };
+    UserInfoService.prototype.getStoredToken = function () {
+        var userObj = this.getUserInfo();
+        if (userObj !== null) {
+            return userObj.token;
+        }
+        return null;
+    };
+    UserInfoService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], UserInfoService);
+    return UserInfoService;
+}());
+exports.UserInfoService = UserInfoService;
 
 
 /***/ }),

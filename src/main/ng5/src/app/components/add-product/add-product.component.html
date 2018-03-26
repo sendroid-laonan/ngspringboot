@@ -1,7 +1,9 @@
 <div id="msg-background" [ngStyle]="{'display': display}">
   <div id="msg-view" class="col-4 offset-4">
-    <input id="info" class="col-12" type="button" value="添加结果:{{msg.info}}"/>
-    <button class="btn btn-primary col-lg-2 offset-lg-8" id="btn-confirm" (click)="onSkip(msg.info)">确定</button>
+    <input id="info" class="col-12" type="button"
+           *ngIf="display == 'block'" value="添加结果:{{msg.info}}"/>
+    <button class="btn btn-primary col-lg-2 offset-lg-8" id="btn-confirm"
+            *ngIf="display == 'block'" (click)="onSkip(msg.info)">确定</button>
   </div>
 </div>
 <div class="container" style="height:74.3vh">
