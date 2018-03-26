@@ -33,4 +33,8 @@ public class ProductService {
     public Optional<Product> update(Product product){
         return Optional.ofNullable(productRepository.saveAndFlush(product));
     }
+
+    public void delete(long id){
+        productRepository.deleteById(id);
+    }
 }

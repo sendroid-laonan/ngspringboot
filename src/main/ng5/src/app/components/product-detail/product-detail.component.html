@@ -1,6 +1,6 @@
 <div id="msg-background" [ngStyle]="{'display': display}">
   <div id="msg-view" class="col-4 offset-4">
-    <input id="info" class="col-12" type="button" *ngIf="display == 'block'" value="修改结果:{{msg.info}}"/>
+    <input id="info" class="col-12" type="button" *ngIf="display == 'block'" value="操作结果:{{msg.info}}"/>
     <button class="btn btn-primary col-lg-2 offset-lg-8" id="btn-confirm"
             *ngIf="display == 'block'" (click)="onSkip(msg.info)">确定</button>
   </div>
@@ -41,6 +41,7 @@
 
     <div class="col-12">
       <button class="col-lg-1 btn btn-success" id="btn-update" type="submit">修改</button>
+      <button class="col-lg-1 btn btn-default" id="btn-delete" type="button" (click)="deleteById(product.id)">删除</button>
     </div>
   </form>
 </div>

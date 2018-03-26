@@ -75,4 +75,15 @@ public class ProductController {
         httpMsg.setInfo(msg);
         return httpMsg;
     }
+
+    @DeleteMapping(value = "/")
+    @ResponseBody
+    public HttpMsg deleteProduct(@RequestParam("id") long id,
+                                 HttpServletResponse response){
+        String  msg = "success";
+        productService.delete(id);
+        HttpMsg httpMsg = new HttpMsg();
+        httpMsg.setInfo(msg);
+        return httpMsg;
+    }
 }

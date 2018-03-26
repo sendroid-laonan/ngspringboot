@@ -45,7 +45,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onSubmit(value:any){
-
     this.url = "../product/";
     this.apiRequest.put(this.url, value).subscribe(data =>{
       this.msg = data.valueOf();
@@ -59,6 +58,14 @@ export class ProductDetailComponent implements OnInit {
     }else {
       this.display = 'none';
     }
+  }
+
+  deleteById(value:number){
+    this.url = "../product/?id=" + value;
+    this.apiRequest.delete(this.url).subscribe(data =>{
+      this.msg = data.valueOf();
+      this.display  =  'block';
+    });
   }
 
   returnProducts(){
