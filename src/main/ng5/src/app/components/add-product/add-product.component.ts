@@ -10,7 +10,6 @@ import {ProductService} from "../../service/product.service";
   styleUrls: ['./add-product.component.css']
 })
 
-@Injectable()
 export class AddProductComponent implements OnInit {
 
   url = "http://localhost:8080/";

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, Injectable, NgModule, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ProductService} from "../../service/product.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -6,7 +6,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+  styleUrls: ['./product-detail.component.css'],
+  providers: [ ProductService ]
 })
 
 @Injectable()
@@ -49,7 +50,7 @@ export class ProductDetailComponent implements OnInit {
       })
     }else {
       console.log(this.productForm.value);
-    };
+    }
 
   }
 
