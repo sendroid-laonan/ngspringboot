@@ -1,9 +1,7 @@
 import {Component, Injectable, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AddProductComponent} from "../add-product/add-product.component";
-import {ApiRequestService} from "../../service/api-request.service";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {ProductService} from "../../service/product.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-product-detail',
@@ -15,41 +13,44 @@ import {ApiRequestService} from "../../service/api-request.service";
 export class ProductDetailComponent implements OnInit {
 
   productId: any;
-  productTitle: any;
-  dataSource:Observable<any>;
   products:Array<any> = [];
   product: any;
   url = "http://localhost:8080/";
   private msg:httpMsg;
   private display:any;
+  productForm: FormGroup;
 
   constructor(
     private routeInfo: ActivatedRoute,
-    private http: HttpClient,
-    private apiRequest: ApiRequestService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private productService: ProductService,
+    private fb: FormBuilder
+  ) {
+    this.productForm = fb.group({
+      price: ['金额不能超过6位数', [Validators.required, Validators.minLength(5)]],
+    });
+  }
 
   ngOnInit() {
     this.display =  'none';
     this.productId = this.routeInfo.snapshot.params["id"];
-    this.url += "product/single?id=" + this.productId;
-    this.http
-      .request(
-        "GET",
-        this.url,
-        {
-          responseType:"json",
-          params:{"contentType": "application/json;charset=utf-8"}
-      }).subscribe( data => this.product = data.valueOf());
+    this.productService.getOne(this.productId).subscribe( (data:Product) => {
+      this.product = data;
+    });
   }
 
   onSubmit(value:any){
-    this.url = "../product/";
-    this.apiRequest.put(this.url, value).subscribe(data =>{
-      this.msg = data.valueOf();
-      this.display  =  'block';
-    });
+    if(this.productForm.valid) {
+      this.productService.updateProduct(value).subscribe((data: httpMsg) => {
+        if (data['info'] != null) {
+          this.msg = data;
+          this.display = 'block';
+        }
+      })
+    }else {
+      console.log(this.productForm.value);
+    };
+
   }
 
   onSkip(value:string){
@@ -61,10 +62,11 @@ export class ProductDetailComponent implements OnInit {
   }
 
   deleteById(value:number){
-    this.url = "../product/?id=" + value;
-    this.apiRequest.delete(this.url).subscribe(data =>{
-      this.msg = data.valueOf();
-      this.display  =  'block';
+    this.productService.deleteById(value).subscribe((data:httpMsg) => {
+      if(data['info'] != null){
+        this.msg = data;
+        this.display  =  'block';
+      }
     });
   }
 

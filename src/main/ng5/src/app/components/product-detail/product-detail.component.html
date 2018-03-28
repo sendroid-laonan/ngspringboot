@@ -9,13 +9,13 @@
   <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)"
         action="/product/"
         method="put"
-        class="col-sm-12" style="padding:20px">
+        class="col-sm-9" style="padding:20px;float: left">
     <button type="button" class="btn btn-primary" id="btn-return-products" (click)="returnProducts()">返回</button>
     <p><img src={{product.url}} style="margin-top: 5vh;width: 40vw;height: 25vw;"></p>
-    <input type="hidden" [(ngModel)]="product.url" value="{{product.url}}" name="url"/>
+    <input type="hidden" #url="ngModel" [(ngModel)]="product.url" value="{{product.url}}" name="url"/>
     <div class="col-sm-6 offset-4 input-group">
       <button class="btn btn-info">商品编号：</button>
-      <input type="text" class="form-control col-7"
+      <input type="text" class="form-control col-7" readonly
              value="{{product.id}}" #id="ngModel" [(ngModel)]="product.id" name="id"/>
     </div>
     <div class="col-sm-6 offset-4 input-group">
@@ -44,4 +44,9 @@
       <button class="col-lg-1 btn btn-default" id="btn-delete" type="button" (click)="deleteById(product.id)">删除</button>
     </div>
   </form>
+  <div class="col-sm-3" style="float: left">
+    <input type="hidden" [(ngModel)]="productId"/>
+    <input type="button" class="btn btn-default" [routerLink]="['./comment', product.id]" value="打开评论" id="btn-open-comment"/>
+    <router-outlet></router-outlet>
+  </div>
 </div>

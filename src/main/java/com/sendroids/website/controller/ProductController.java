@@ -1,5 +1,6 @@
 package com.sendroids.website.controller;
 
+import com.sendroids.website.domain.Comment;
 import com.sendroids.website.domain.HttpMsg;
 import com.sendroids.website.domain.Product;
 import com.sendroids.website.service.ProductService;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -32,6 +34,7 @@ public class ProductController {
     public Product searchProduct(@RequestParam("id")long id,
                           HttpServletResponse response){
         Product product = productService.findById(id).orElseThrow(NullPointerException::new);
+        product.getComments().forEach(comment -> comment.setProduct(null));
         response.setHeader("Access-Control-Allow-Origin", "*");
         return product;
     }
@@ -40,6 +43,9 @@ public class ProductController {
     @ResponseBody
     public List<Product> searchProducts(HttpServletResponse response){
         List<Product> products = productService.findAll().orElse(new ArrayList<>());
+        products.forEach(
+                product -> product.getComments().forEach(
+                        comment -> comment.setProduct(null)));
         response.setHeader("Access-Control-Allow-Origin", "*");
         return products;
     }
@@ -82,6 +88,33 @@ public class ProductController {
                                  HttpServletResponse response){
         String  msg = "success";
         productService.delete(id);
+        HttpMsg httpMsg = new HttpMsg();
+        httpMsg.setInfo(msg);
+        return httpMsg;
+    }
+
+    @GetMapping(value = "/comments")
+    @ResponseBody
+    public List<Comment> searchComments(@RequestParam("id")long id,
+                                        HttpServletResponse response){
+        Product product = productService.findById(id).orElseThrow(NullPointerException::new);
+        product.getComments().forEach(comment -> comment.setProduct(null));
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return product.getComments();
+    }
+
+    @PostMapping(value = "/comment", produces = {"application/json;charset=utf-8"})
+    @ResponseBody
+    public HttpMsg addComment(@RequestBody Comment comment,
+                              HttpServletResponse response){
+        String msg = "error";
+        Product product = productService.findById(comment.getProduct().getId()).orElse(new Product());
+        comment.setProduct(product);
+        Comment newComment = productService.addComment(comment).orElse(new Comment());
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        if(newComment.getId() != null){
+            msg = "success";
+        }
         HttpMsg httpMsg = new HttpMsg();
         httpMsg.setInfo(msg);
         return httpMsg;

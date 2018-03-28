@@ -4,14 +4,12 @@ import { Router } from '@angular/router';
 import { Observable} from 'rxjs';
 import 'rxjs/add/operator/catch';
 import { UserInfoService, LoginInfoInStorage} from './user-info.service';
-import { AppConfig } from '../../../app-config';
 
 
 @Injectable()
 export class ApiRequestService {
 
     constructor(
-        private appConfig:AppConfig,
         private http: HttpClient,
         private router:Router,
         private userInfoService:UserInfoService

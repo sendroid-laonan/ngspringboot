@@ -40,3 +40,8 @@
 .input-group{
   margin-top: 3px;
 }
+
+#btn-open-comment{
+  margin-top: 1vh;
+  float: left;
+}

@@ -8,34 +8,44 @@
 </div>
 <div class="container" style="height:74.3vh">
   <div class="row col-sm-12" style="margin-top: 15vh">
-    <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)"
-          action="/product/"
-          method="post"
-          class="col-sm-12" style="padding:20px">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)" action="/product/" method="post" class="col-sm-12" style="padding:20px">
       <div>
         <p class="col-sm-4 offset-4 form-group">
-          商品名称<input type="text" class="form-control" #title="ngModel" ngModel name="title"/>
+          商品名称<input type="text" class="form-control" formControlName="title"/>
+          <span [ngStyle]="{'display':this.errorDisplay ? 'none':'block'}">
+            <span style="color: red;" [hidden]="!myForm.hasError('required','title')">商品名称不能为空</span>
+            <span style="color: red;" [hidden]="!myForm.hasError('isChinese', 'title')">{{myForm.getError('isChinese', 'title')?.info}}</span>
+          </span>
         </p>
         <p class="col-sm-4 offset-4 form-group">
-          商品价格<input type="text" class="form-control" #price="ngModel" ngModel name="price"/>
+          商品价格<input type="text" class="form-control" formControlName="price"/>
+          <span [ngStyle]="{'display':this.errorDisplay ? 'none':'block'}">
+            <span style="color: red;" [hidden]="!myForm.hasError('required','price')">价格不能为空</span>
+          </span>
         </p>
         <p class="col-sm-4 offset-4 form-group">
-          商品图片<input type="text" class="form-control" #url="ngModel" ngModel name="url"/>
+          商品图片<input type="text" class="form-control" formControlName="url"/>
         </p>
         <p class="col-sm-4 offset-4 form-group">
-          商品详情<input type="text" class="form-control" #remark="ngModel" ngModel name="remark"/>
+          商品详情<input type="text" class="form-control" formControlName="remark"/>
+          <span [ngStyle]="{'display':this.errorDisplay ? 'none':'block'}">
+            <span style="color: red;" [hidden]="!myForm.hasError('required','remark')">商品详情不能为空</span>
+          </span>
         </p>
         <p class="col-sm-4 offset-4 form-group">
-          商品星评<input type="text" class="form-control" #rating="ngModel" ngModel name="rating"/>
+          商品星评<input type="text" class="form-control" formControlName="rating"/>
+          <span [ngStyle]="{'display':this.errorDisplay ? 'none':'block'}">
+            <span style="color: red;" [hidden]="!myForm.hasError('required','rating')">商品星评不能为空</span>
+          </span>
         </p>
-
       </div>
-      <button class="col-sm-2 offset-5 btn btn-success" type="submit">提交</button>
+      <button class="col-sm-2 offset-5 btn btn-success" type="submit" >提交</button>
+      <!--<button class="col-sm-2 offset-5 btn btn-success" type="submit" [disabled]="!myForm.valid">提交</button>-->
     </form>
   </div>
 </div>
 <div>
-  {{myForm.value | json}} {{title.value}}
+  {{myForm.value | json}}
 </div>
 <div>
 

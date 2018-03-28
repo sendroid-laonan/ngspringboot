@@ -12,8 +12,6 @@ import { StarsComponent } from './components/stars/stars.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ProductService } from './shared/product.service';
-import { AnotherProductService } from './shared/another-product.service';
 import { HomeComponent} from './components/home/home.component';
 import { ChatComponent} from "./components/chat/chat.component";
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
@@ -23,6 +21,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppConfig} from "../../app-config";
 import {ApiRequestService} from "./service/api-request.service";
 import {UserInfoService} from "./service/user-info.service";
+import {ProductService} from "./service/product.service";
+import { CommentComponent } from './components/comment/comment.component';
+import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,8 @@ import {UserInfoService} from "./service/user-info.service";
     ChatComponent,
     ProductDetailComponent,
     AddProductComponent,
+    CommentComponent,
+    HeroDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,11 +48,10 @@ import {UserInfoService} from "./service/user-info.service";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     ProductService,
-    AnotherProductService,
     ApiRequestService,
     UserInfoService,
     AppConfig,

@@ -1,0 +1,11 @@
+#comments-view{
+  margin-top: 8vh;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 1rem;
+}
+
+#comments-view input:first-child{
+  margin-top: 1vh;
+}
