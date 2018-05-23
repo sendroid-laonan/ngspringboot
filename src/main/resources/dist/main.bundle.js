@@ -97,22 +97,20 @@ var chat_component_1 = __webpack_require__("./src/app/components/chat/chat.compo
 var carousel_component_1 = __webpack_require__("./src/app/components/carousel/carousel.component.ts");
 var product_detail_component_1 = __webpack_require__("./src/app/components/product-detail/product-detail.component.ts");
 var add_product_component_1 = __webpack_require__("./src/app/components/add-product/add-product.component.ts");
+var comment_component_1 = __webpack_require__("./src/app/components/comment/comment.component.ts");
+var hero_detail_component_1 = __webpack_require__("./src/app/components/hero-detail/hero-detail.component.ts");
 var routes = [
     { path: '', redirectTo: '/carousel', pathMatch: 'full' },
     { path: 'chat', component: chat_component_1.ChatComponent, outlet: 'aux' },
     { path: 'home', component: home_component_1.HomeComponent },
     { path: 'carousel/:id', component: carousel_component_1.CarouselComponent },
-    { path: 'product/:id', component: product_detail_component_1.ProductDetailComponent },
+    { path: 'product/:id', component: product_detail_component_1.ProductDetailComponent,
+        children: [
+            { path: 'comment/:id', component: comment_component_1.CommentComponent },
+        ]
+    },
     { path: 'addProduct', component: add_product_component_1.AddProductComponent },
-    // { path: 'product/:id', component: ProductDetailComponent, children: [
-    // {path: '', component: ProductDescComponent},
-    // {path: 'seller/:id', component: SellerInfoComponent}
-    // ] ,
-    //   resolve: {
-    //   product: ProductResolve // resolve路由
-    // },
-    //   canActivate: [LoginGuard], canDeactivate: [UnsavedGuard]   // 进入目标路由、离开当前路由
-    // },
+    { path: 'hero', component: hero_detail_component_1.HeroDetailComponent },
     { path: '**', component: carousel_component_1.CarouselComponent }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -130,6 +128,15 @@ var AppRoutingModule = /** @class */ (function () {
     return AppRoutingModule;
 }());
 exports.AppRoutingModule = AppRoutingModule;
+// { path: 'product/:id', component: ProductDetailComponent, children: [
+// {path: '', component: ProductDescComponent},
+// {path: 'seller/:id', component: SellerInfoComponent}
+// ] ,
+//   resolve: {
+//   product: ProductResolve // resolve路由
+// },
+//   canActivate: [LoginGuard], canDeactivate: [UnsavedGuard]   // 进入目标路由、离开当前路由
+// },
 
 
 /***/ }),
@@ -230,19 +237,20 @@ var carousel_component_1 = __webpack_require__("./src/app/components/carousel/ca
 var product_component_1 = __webpack_require__("./src/app/components/product/product.component.ts");
 var stars_component_1 = __webpack_require__("./src/app/components/stars/stars.component.ts");
 var navbar_component_1 = __webpack_require__("./src/app/components/navbar/navbar.component.ts");
-var app_routing_module_1 = __webpack_require__("./src/app/app-routing.module.ts");
-var dropdown_1 = __webpack_require__("./node_modules/ngx-bootstrap/dropdown/index.js");
-var product_service_1 = __webpack_require__("./src/app/shared/product.service.ts");
-var another_product_service_1 = __webpack_require__("./src/app/shared/another-product.service.ts");
 var home_component_1 = __webpack_require__("./src/app/components/home/home.component.ts");
 var chat_component_1 = __webpack_require__("./src/app/components/chat/chat.component.ts");
 var product_detail_component_1 = __webpack_require__("./src/app/components/product-detail/product-detail.component.ts");
-var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var comment_component_1 = __webpack_require__("./src/app/components/comment/comment.component.ts");
+var hero_detail_component_1 = __webpack_require__("./src/app/components/hero-detail/hero-detail.component.ts");
 var add_product_component_1 = __webpack_require__("./src/app/components/add-product/add-product.component.ts");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var app_routing_module_1 = __webpack_require__("./src/app/app-routing.module.ts");
+var dropdown_1 = __webpack_require__("./node_modules/ngx-bootstrap/dropdown/index.js");
 var app_config_1 = __webpack_require__("./app-config.ts");
 var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
 var user_info_service_1 = __webpack_require__("./src/app/service/user-info.service.ts");
+var product_service_1 = __webpack_require__("./src/app/service/product.service.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -261,6 +269,8 @@ var AppModule = /** @class */ (function () {
                 chat_component_1.ChatComponent,
                 product_detail_component_1.ProductDetailComponent,
                 add_product_component_1.AddProductComponent,
+                comment_component_1.CommentComponent,
+                hero_detail_component_1.HeroDetailComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -268,11 +278,10 @@ var AppModule = /** @class */ (function () {
                 app_routing_module_1.AppRoutingModule,
                 http_1.HttpClientModule,
                 forms_1.FormsModule,
-                forms_1.ReactiveFormsModule
+                forms_1.ReactiveFormsModule,
             ],
             providers: [
                 product_service_1.ProductService,
-                another_product_service_1.AnotherProductService,
                 api_request_service_1.ApiRequestService,
                 user_info_service_1.UserInfoService,
                 app_config_1.AppConfig,
@@ -297,7 +306,7 @@ module.exports = "#msg-background{\r\n  width: 100vw;\r\n  height: 100vh;\r\n  b
 /***/ "./src/app/components/add-product/add-product.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"msg-background\" [ngStyle]=\"{'display': display}\">\r\n  <div id=\"msg-view\" class=\"col-4 offset-4\">\r\n    <input id=\"info\" class=\"col-12\" type=\"button\"\r\n           *ngIf=\"display == 'block'\" value=\"添加结果:{{msg.info}}\"/>\r\n    <button class=\"btn btn-primary col-lg-2 offset-lg-8\" id=\"btn-confirm\"\r\n            *ngIf=\"display == 'block'\" (click)=\"onSkip(msg.info)\">确定</button>\r\n  </div>\r\n</div>\r\n<div class=\"container\" style=\"height:74.3vh\">\r\n  <div class=\"row col-sm-12\" style=\"margin-top: 15vh\">\r\n    <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\r\n          action=\"/product/\"\r\n          method=\"post\"\r\n          class=\"col-sm-12\" style=\"padding:20px\">\r\n      <div>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品名称<input type=\"text\" class=\"form-control\" #title=\"ngModel\" ngModel name=\"title\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品价格<input type=\"text\" class=\"form-control\" #price=\"ngModel\" ngModel name=\"price\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品图片<input type=\"text\" class=\"form-control\" #url=\"ngModel\" ngModel name=\"url\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品详情<input type=\"text\" class=\"form-control\" #remark=\"ngModel\" ngModel name=\"remark\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品星评<input type=\"text\" class=\"form-control\" #rating=\"ngModel\" ngModel name=\"rating\"/>\r\n        </p>\r\n\r\n      </div>\r\n      <button class=\"col-sm-2 offset-5 btn btn-success\" type=\"submit\">提交</button>\r\n    </form>\r\n  </div>\r\n</div>\r\n<div>\r\n  {{myForm.value | json}} {{title.value}}\r\n</div>\r\n<div>\r\n\r\n</div>\r\n"
+module.exports = "<div id=\"msg-background\" [ngStyle]=\"{'display': display}\">\r\n  <div id=\"msg-view\" class=\"col-4 offset-4\">\r\n    <input id=\"info\" class=\"col-12\" type=\"button\"\r\n           *ngIf=\"display == 'block'\" value=\"添加结果:{{msg.info}}\"/>\r\n    <button class=\"btn btn-primary col-lg-2 offset-lg-8\" id=\"btn-confirm\"\r\n            *ngIf=\"display == 'block'\" (click)=\"onSkip(msg.info)\">确定</button>\r\n  </div>\r\n</div>\r\n<div class=\"container\" style=\"height:72vh\">\r\n  <div class=\"row col-sm-12\" style=\"margin-top: 15vh\">\r\n    <form [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit(myForm.value)\" action=\"/product/\" method=\"post\" class=\"col-sm-12\" style=\"padding:20px\">\r\n      <div>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品名称<input type=\"text\" class=\"form-control\" formControlName=\"title\"/>\r\n          <span [ngStyle]=\"{'display':this.errorDisplay ? 'none':'block'}\">\r\n            <span style=\"color: red;\" [hidden]=\"!myForm.hasError('required','title')\">商品名称不能为空</span>\r\n            <span style=\"color: red;\" [hidden]=\"!myForm.hasError('isChinese', 'title')\">{{myForm.getError('isChinese', 'title')?.info}}</span>\r\n          </span>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品价格<input type=\"text\" class=\"form-control\" formControlName=\"price\"/>\r\n          <span [ngStyle]=\"{'display':this.errorDisplay ? 'none':'block'}\">\r\n            <span style=\"color: red;\" [hidden]=\"!myForm.hasError('required','price')\">价格不能为空</span>\r\n          </span>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品图片<input type=\"text\" class=\"form-control\" formControlName=\"url\"/>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品详情<input type=\"text\" class=\"form-control\" formControlName=\"remark\"/>\r\n          <span [ngStyle]=\"{'display':this.errorDisplay ? 'none':'block'}\">\r\n            <span style=\"color: red;\" [hidden]=\"!myForm.hasError('required','remark')\">商品详情不能为空</span>\r\n          </span>\r\n        </p>\r\n        <p class=\"col-sm-4 offset-4 form-group\">\r\n          商品星评<input type=\"text\" class=\"form-control\" formControlName=\"rating\"/>\r\n          <span [ngStyle]=\"{'display':this.errorDisplay ? 'none':'block'}\">\r\n            <span style=\"color: red;\" [hidden]=\"!myForm.hasError('required','rating')\">商品星评不能为空</span>\r\n          </span>\r\n        </p>\r\n      </div>\r\n      <button class=\"col-sm-2 offset-5 btn btn-success\" type=\"submit\" >提交</button>\r\n      <!--<button class=\"col-sm-2 offset-5 btn btn-success\" type=\"submit\" [disabled]=\"!myForm.valid\">提交</button>-->\r\n    </form>\r\n  </div>\r\n</div>\r\n<div>\r\n  {{myForm.value | json}}\r\n</div>\r\n<div>\r\n\r\n</div>\r\n"
 
 /***/ }),
 
@@ -320,34 +329,44 @@ var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
+var product_service_1 = __webpack_require__("./src/app/service/product.service.ts");
 var AddProductComponent = /** @class */ (function () {
-    function AddProductComponent(routeInfo, http, apiRequest, router) {
+    function AddProductComponent(routeInfo, http, productService, router, fb) {
         this.routeInfo = routeInfo;
         this.http = http;
-        this.apiRequest = apiRequest;
+        this.productService = productService;
         this.router = router;
+        this.fb = fb;
         this.url = "http://localhost:8080/";
-        this.formModel = new forms_1.FormGroup({
-            product: new forms_1.FormControl()
-        });
+        this.createForm();
     }
+    // 创建表单元素
+    AddProductComponent.prototype.createForm = function () {
+        this.myForm = this.fb.group({
+            title: ['', [forms_1.Validators.required, this.titleValidator]],
+            price: ['', [forms_1.Validators.required]],
+            url: ['', []],
+            remark: ['', [forms_1.Validators.required]],
+            rating: ['', [forms_1.Validators.required, forms_1.Validators.min(0), forms_1.Validators.max(5)]],
+        });
+    };
     AddProductComponent.prototype.ngOnInit = function () {
         this.display = 'none';
-    };
-    AddProductComponent.prototype.getHeaders = function () {
-        var headers = new http_1.HttpHeaders();
-        headers = headers.append('Content-Type', 'application/json;charset=utf-8');
-        return headers;
+        this.errorDisplay = true;
     };
     AddProductComponent.prototype.onSubmit = function (value) {
         var _this = this;
-        console.log(value);
-        this.url = "../product/";
-        this.apiRequest.post(this.url, value).subscribe(function (data) {
-            _this.msg = data.valueOf();
-            _this.display = 'block';
-        });
+        if (this.myForm.valid) {
+            this.productService.saveProduct(value).subscribe(function (data) {
+                if (data['info'] != null) {
+                    _this.msg = data;
+                    _this.display = 'block';
+                }
+            });
+        }
+        else {
+            this.errorDisplay = false;
+        }
     };
     AddProductComponent.prototype.onSkip = function (value) {
         if (value == "success") {
@@ -357,6 +376,11 @@ var AddProductComponent = /** @class */ (function () {
             this.display = 'none';
         }
     };
+    AddProductComponent.prototype.titleValidator = function (control) {
+        var regx = /^[\u4e00-\u9fa5]+$/;
+        var valid = regx.test(control.value);
+        return valid ? null : { isChinese: { info: '请输入中文' } };
+    };
     AddProductComponent = __decorate([
         core_1.Component({
             selector: 'app-add-product',
@@ -365,8 +389,9 @@ var AddProductComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
             http_1.HttpClient,
-            api_request_service_1.ApiRequestService,
-            router_1.Router])
+            product_service_1.ProductService,
+            router_1.Router,
+            forms_1.FormBuilder])
     ], AddProductComponent);
     return AddProductComponent;
 }());
@@ -496,6 +521,97 @@ var ChatComponent = /** @class */ (function () {
     return ChatComponent;
 }());
 exports.ChatComponent = ChatComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/components/comment/comment.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "#comments-view{\r\n  margin-top: 8vh;\r\n  background: #fff;\r\n  -webkit-box-shadow: 0 5px 20px rgba(0,0,0,0.2);\r\n          box-shadow: 0 5px 20px rgba(0,0,0,0.2);\r\n  padding: 10px;\r\n  border-radius: 1rem;\r\n}\r\n\r\n#comments-view input:first-child{\r\n  margin-top: 1vh;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/components/comment/comment.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"col-12\" id=\"comments-view\">\n  <div style=\"height: 30vh;overflow-y: auto\" id=\"scroll-view\">\n    <div *ngFor=\"let comment of comments\" class=\"col-12\" style=\"margin-top: 3px;\">\n      <input type=\"text\" class=\"col-12 form-control\" value=\"{{comment.info}}\" readonly/>\n    </div>\n  </div>\n  <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\n        class=\"col-sm-12\">\n    <div class=\"input-group\" style=\"margin-bottom: 1vh\">\n      <input class=\"form-control\" id=\"comment-info\" type=\"text\" #info=\"ngModel\" ngModel name=\"info\"/>\n    </div>\n    <div ngModelGroup=\"product\">\n      <input type=\"hidden\" #id=\"ngModel\" ngModel=\"{{productId}}\" value=\"{{productId}}\" name=\"id\" />\n    </div>\n    <button class=\"label btn btn-success\" type=\"submit\">发送</button>\n  </form>\n  <div>\n    {{myForm.value | json}}\n  </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/components/comment/comment.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var product_service_1 = __webpack_require__("./src/app/service/product.service.ts");
+var $ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
+var CommentComponent = /** @class */ (function () {
+    function CommentComponent(routeInfo, productService) {
+        this.routeInfo = routeInfo;
+        this.productService = productService;
+    }
+    CommentComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.productId = this.routeInfo.snapshot.params["id"];
+        this.productService.getComment(this.productId).subscribe(function (data) { _this.comments = data.valueOf(); });
+    };
+    CommentComponent.prototype.onSubmit = function (value) {
+        var _this = this;
+        $('#comment-info').val(null);
+        this.productService.saveComment(value).subscribe(function (data) {
+            if (data['info'] != null) {
+                _this.productService.getComment(_this.productId).subscribe(function (data) { _this.comments = data.valueOf(); });
+            }
+        });
+    };
+    CommentComponent = __decorate([
+        core_1.Component({
+            selector: 'app-comment',
+            template: __webpack_require__("./src/app/components/comment/comment.component.html"),
+            styles: [__webpack_require__("./src/app/components/comment/comment.component.css")]
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            product_service_1.ProductService])
+    ], CommentComponent);
+    return CommentComponent;
+}());
+exports.CommentComponent = CommentComponent;
+var Comment = /** @class */ (function () {
+    function Comment(id, info, product) {
+        this.id = id;
+        this.info = info;
+        this.product = product;
+    }
+    return Comment;
+}());
+exports.Comment = Comment;
+var Product = /** @class */ (function () {
+    function Product(id) {
+        this.id = id;
+    }
+    return Product;
+}());
+exports.Product = Product;
+var httpMsg = /** @class */ (function () {
+    function httpMsg(info) {
+        this.info = info;
+    }
+    return httpMsg;
+}());
+exports.httpMsg = httpMsg;
 
 
 /***/ }),
@@ -691,6 +807,83 @@ exports.HeaderComponent = HeaderComponent;
 
 /***/ }),
 
+/***/ "./src/app/components/hero-detail/hero-detail.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/hero-detail/hero-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\n  <div class=\"row\">\n    <form [formGroup]=\"myForm\" (ngSubmit)=\"postDate()\">\n      <div class=\"form-group\">\n        <label for=\"username\">用户名:</label>\n        <input type=\"text\" placeholder=\"请输入用户名\" class=\"form-control\" id=\"username\" formControlName=\"username\"/>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"mobile\">手机号码:</label>\n        <input type=\"text\" placeholder=\"请输入手机号码\" class=\"form-control\" id=\"mobile\" formControlName=\"mobile\"/>\n      </div>\n      <div formGroupName=\"password\" style=\"border:none;\">\n        <div class=\"form-group\">\n          <label>密码:</label>\n          <input type=\"password\" class=\"form-control\" placeholder=\"请输入密码\" formControlName=\"pass1\"/>\n        </div>\n        <div class=\"form-group\">\n          <label>确认密码:</label>\n          <input type=\"password\" class=\"form-control\" placeholder=\"请再次输入密码\" formControlName=\"pass2\"/>\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <input type=\"submit\" value=\"提交\" class=\"btn btn-success\" [disabled]=\"!myForm.valid\"/>\n      </div>\n    </form>\n    <div>\n      {{myForm.value | json}}\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/hero-detail/hero-detail.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var HeroDetailComponent = /** @class */ (function () {
+    function HeroDetailComponent(fb) {
+        this.fb = fb;
+        this.createForm();
+    }
+    HeroDetailComponent.prototype.ngOnInit = function () {
+    };
+    // 创建表单元素
+    HeroDetailComponent.prototype.createForm = function () {
+        this.myForm = this.fb.group({
+            username: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3), forms_1.Validators.maxLength(6)]],
+            mobile: ['', [forms_1.Validators.required]],
+            password: this.fb.group({
+                pass1: [''],
+                pass2: ['']
+            })
+        });
+    };
+    // 提交表单函数
+    HeroDetailComponent.prototype.postDate = function () {
+        /**
+         * valid:是否有效
+         * invalid:无效
+         * dirty:脏
+         * status:状态
+         * errors:显示错误
+         */
+        if (this.myForm.valid) {
+            console.log(this.myForm.value);
+        }
+    };
+    HeroDetailComponent = __decorate([
+        core_1.Component({
+            selector: 'app-hero-detail',
+            template: __webpack_require__("./src/app/components/hero-detail/hero-detail.component.html"),
+            styles: [__webpack_require__("./src/app/components/hero-detail/hero-detail.component.css")]
+        }),
+        __metadata("design:paramtypes", [forms_1.FormBuilder])
+    ], HeroDetailComponent);
+    return HeroDetailComponent;
+}());
+exports.HeroDetailComponent = HeroDetailComponent;
+
+
+/***/ }),
+
 /***/ "./src/app/components/home/home.component.css":
 /***/ (function(module, exports) {
 
@@ -756,7 +949,7 @@ module.exports = ""
 /***/ "./src/app/components/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-md navbar-dark bg-primary\">\n  <div class=\"container\">\n    <a class=\"navbar-brand\" [routerLink]=\"['/carousel', 1]\">在线竞拍</a>\n    <button type=\"button\" class=\"navbar-toggler hidden-lg-up\" data-toggle=\"collapse\" data-target=\"#collapsibleNavbar\"\n            aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse navbar-toggleable-md\" id=\"collapsibleNavbar\">\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/home']\" >关于我们</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/addProduct']\" >添加商品</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">网站地图</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"[{outlets:{aux: 'chat'}}]\">开始聊天</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-expand-md navbar-dark bg-primary\">\n  <div class=\"container\">\n    <a class=\"navbar-brand\" [routerLink]=\"['/carousel', 1]\">在线竞拍</a>\n    <button type=\"button\" class=\"navbar-toggler hidden-lg-up\" data-toggle=\"collapse\" data-target=\"#collapsibleNavbar\"\n            aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse navbar-toggleable-md\" id=\"collapsibleNavbar\">\n      <ul class=\"navbar-nav\">\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/home']\" >关于我们</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/addProduct']\" >添加商品</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"['/hero']\" >英雄</a></li>\n        <li class=\"nav-item\"><a class=\"nav-link\" [routerLink]=\"[{outlets:{aux: 'chat'}}]\">开始聊天</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -800,14 +993,14 @@ exports.NavbarComponent = NavbarComponent;
 /***/ "./src/app/components/product-detail/product-detail.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "#btn-return-products{\r\n  margin-top: 1vh;\r\n  float: left;\r\n  position: absolute;\r\n  left: 10vw;\r\n}\r\n\r\n#msg-background{\r\n  width: 100vw;\r\n  height: 100vh;\r\n  background: rgba(0,0,0,0.5);\r\n  position: absolute;\r\n  z-index: 50000;\r\n  text-align: center;\r\n}\r\n\r\n#msg-view{\r\n  margin-top: 10vh;\r\n  height: 20vh;\r\n  background: #fff;\r\n  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n          box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n  border-radius: 1rem;\r\n}\r\n\r\n#info{\r\n  height: 70%;\r\n  border: 0;\r\n  background: #fff;\r\n  border-bottom: solid 1px rgba(0,0,0,0.1);\r\n}\r\n\r\n#btn-confirm{\r\n  margin-top: 1vh;\r\n}\r\n\r\n#btn-update{\r\n  margin-top: 1vh;\r\n}\r\n\r\n.input-group{\r\n  margin-top: 3px;\r\n}\r\n"
+module.exports = "#btn-return-products{\r\n  margin-top: 1vh;\r\n  float: left;\r\n  position: absolute;\r\n  left: 10vw;\r\n}\r\n\r\n#msg-background{\r\n  width: 100vw;\r\n  height: 100vh;\r\n  background: rgba(0,0,0,0.5);\r\n  position: absolute;\r\n  z-index: 50000;\r\n  text-align: center;\r\n}\r\n\r\n#msg-view{\r\n  margin-top: 10vh;\r\n  height: 20vh;\r\n  background: #fff;\r\n  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n          box-shadow: 0 5px 10px rgba(0,0,0,0.3);\r\n  border-radius: 1rem;\r\n}\r\n\r\n#info{\r\n  height: 70%;\r\n  border: 0;\r\n  background: #fff;\r\n  border-bottom: solid 1px rgba(0,0,0,0.1);\r\n}\r\n\r\n#btn-confirm{\r\n  margin-top: 1vh;\r\n}\r\n\r\n#btn-update, #btn-delete{\r\n  margin-top: 1vh;\r\n}\r\n\r\n.input-group{\r\n  margin-top: 3px;\r\n}\r\n\r\n#btn-open-comment{\r\n  margin-top: 1vh;\r\n  float: left;\r\n}\r\n"
 
 /***/ }),
 
 /***/ "./src/app/components/product-detail/product-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"msg-background\" [ngStyle]=\"{'display': display}\">\r\n  <div id=\"msg-view\" class=\"col-4 offset-4\">\r\n    <input id=\"info\" class=\"col-12\" type=\"button\" *ngIf=\"display == 'block'\" value=\"修改结果:{{msg.info}}\"/>\r\n    <button class=\"btn btn-primary col-lg-2 offset-lg-8\" id=\"btn-confirm\"\r\n            *ngIf=\"display == 'block'\" (click)=\"onSkip(msg.info)\">确定</button>\r\n  </div>\r\n</div>\r\n<div class=\"col-sm-12\" style=\"text-align: center;min-height: 89.3vh\">\r\n  <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\r\n        action=\"/product/\"\r\n        method=\"put\"\r\n        class=\"col-sm-12\" style=\"padding:20px\">\r\n    <button type=\"button\" class=\"btn btn-primary\" id=\"btn-return-products\" (click)=\"returnProducts()\">返回</button>\r\n    <p><img src={{product.url}} style=\"margin-top: 5vh;width: 40vw;height: 25vw;\"></p>\r\n    <input type=\"hidden\" [(ngModel)]=\"product.url\" value=\"{{product.url}}\" name=\"url\"/>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品编号：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.id}}\" #id=\"ngModel\" [(ngModel)]=\"product.id\" name=\"id\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品名称：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.title}}\" #title=\"ngModel\" [(ngModel)]=\"product.title\" name=\"title\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品价格：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.price}}\" #price=\"ngModel\" [(ngModel)]=\"product.price\" name=\"price\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品详情：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.remark}}\" #remark=\"ngModel\" [(ngModel)]=\"product.remark\" name=\"remark\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品评价：</button>\r\n      <input type=\"text\" class=\"form-control col-7\" readonly\r\n             value=\"{{product.rating}}\" #rating=\"ngModel\" [(ngModel)]=\"product.rating\" name=\"rating\"/>\r\n    </div>\r\n\r\n    <div class=\"col-12\">\r\n      <button class=\"col-lg-1 btn btn-success\" id=\"btn-update\" type=\"submit\">修改</button>\r\n    </div>\r\n  </form>\r\n</div>\r\n"
+module.exports = "<div id=\"msg-background\" [ngStyle]=\"{'display': display}\">\r\n  <div id=\"msg-view\" class=\"col-4 offset-4\">\r\n    <input id=\"info\" class=\"col-12\" type=\"button\" *ngIf=\"display == 'block'\" value=\"操作结果:{{msg.info}}\"/>\r\n    <button class=\"btn btn-primary col-lg-2 offset-lg-8\" id=\"btn-confirm\"\r\n            *ngIf=\"display == 'block'\" (click)=\"onSkip(msg.info)\">确定</button>\r\n  </div>\r\n</div>\r\n<div class=\"col-sm-12\" style=\"text-align: center;min-height: 89.3vh\">\r\n  <form #myForm=\"ngForm\" (ngSubmit)=\"onSubmit(myForm.value)\"\r\n        action=\"/product/\"\r\n        method=\"put\"\r\n        class=\"col-sm-9\" style=\"padding:20px;float: left\">\r\n    <button type=\"button\" class=\"btn btn-primary\" id=\"btn-return-products\" (click)=\"returnProducts()\">返回</button>\r\n    <p><img src={{product.url}} style=\"margin-top: 5vh;width: 40vw;height: 25vw;\"></p>\r\n    <input type=\"hidden\" #url=\"ngModel\" [(ngModel)]=\"product.url\" value=\"{{product.url}}\" name=\"url\"/>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品编号：</button>\r\n      <input type=\"text\" class=\"form-control col-7\" readonly\r\n             value=\"{{product.id}}\" #id=\"ngModel\" [(ngModel)]=\"product.id\" name=\"id\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品名称：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.title}}\" #title=\"ngModel\" [(ngModel)]=\"product.title\" name=\"title\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品价格：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.price}}\" #price=\"ngModel\" [(ngModel)]=\"product.price\" name=\"price\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品详情：</button>\r\n      <input type=\"text\" class=\"form-control col-7\"\r\n             value=\"{{product.remark}}\" #remark=\"ngModel\" [(ngModel)]=\"product.remark\" name=\"remark\"/>\r\n    </div>\r\n    <div class=\"col-sm-6 offset-4 input-group\">\r\n      <button class=\"btn btn-info\">商品评价：</button>\r\n      <input type=\"text\" class=\"form-control col-7\" readonly\r\n             value=\"{{product.rating}}\" #rating=\"ngModel\" [(ngModel)]=\"product.rating\" name=\"rating\"/>\r\n    </div>\r\n\r\n    <div class=\"col-12\">\r\n      <button class=\"col-lg-1 btn btn-success\" id=\"btn-update\" type=\"submit\">修改</button>\r\n      <button class=\"col-lg-1 btn btn-default\" id=\"btn-delete\" type=\"button\" (click)=\"deleteById(product.id)\">删除</button>\r\n    </div>\r\n  </form>\r\n  <div class=\"col-sm-3\" style=\"float: left\">\r\n    <input type=\"hidden\" [(ngModel)]=\"productId\"/>\r\n    <input type=\"button\" class=\"btn btn-default\" [routerLink]=\"['./comment', product.id]\" value=\"打开评论\" id=\"btn-open-comment\"/>\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -828,35 +1021,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
+var product_service_1 = __webpack_require__("./src/app/service/product.service.ts");
+var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 var ProductDetailComponent = /** @class */ (function () {
-    function ProductDetailComponent(routeInfo, http, apiRequest, router) {
+    function ProductDetailComponent(routeInfo, router, productService, fb) {
         this.routeInfo = routeInfo;
-        this.http = http;
-        this.apiRequest = apiRequest;
         this.router = router;
+        this.productService = productService;
+        this.fb = fb;
         this.products = [];
         this.url = "http://localhost:8080/";
+        this.productForm = fb.group({
+            price: ['金额不能超过6位数', [forms_1.Validators.required, forms_1.Validators.minLength(5)]],
+        });
     }
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.display = 'none';
         this.productId = this.routeInfo.snapshot.params["id"];
-        this.url += "product/single?id=" + this.productId;
-        this.http
-            .request("GET", this.url, {
-            responseType: "json",
-            params: { "contentType": "application/json;charset=utf-8" }
-        }).subscribe(function (data) { return _this.product = data.valueOf(); });
+        this.productService.getOne(this.productId).subscribe(function (data) {
+            _this.product = data;
+        });
     };
     ProductDetailComponent.prototype.onSubmit = function (value) {
         var _this = this;
-        this.url = "../product/";
-        this.apiRequest.put(this.url, value).subscribe(function (data) {
-            _this.msg = data.valueOf();
-            _this.display = 'block';
-        });
+        if (this.productForm.valid) {
+            this.productService.updateProduct(value).subscribe(function (data) {
+                if (data['info'] != null) {
+                    _this.msg = data;
+                    _this.display = 'block';
+                }
+            });
+        }
+        else {
+            console.log(this.productForm.value);
+        }
     };
     ProductDetailComponent.prototype.onSkip = function (value) {
         if (value == "success") {
@@ -866,6 +1065,15 @@ var ProductDetailComponent = /** @class */ (function () {
             this.display = 'none';
         }
     };
+    ProductDetailComponent.prototype.deleteById = function (value) {
+        var _this = this;
+        this.productService.deleteById(value).subscribe(function (data) {
+            if (data['info'] != null) {
+                _this.msg = data;
+                _this.display = 'block';
+            }
+        });
+    };
     ProductDetailComponent.prototype.returnProducts = function () {
         history.back();
     };
@@ -873,13 +1081,14 @@ var ProductDetailComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'app-product-detail',
             template: __webpack_require__("./src/app/components/product-detail/product-detail.component.html"),
-            styles: [__webpack_require__("./src/app/components/product-detail/product-detail.component.css")]
+            styles: [__webpack_require__("./src/app/components/product-detail/product-detail.component.css")],
+            providers: [product_service_1.ProductService]
         }),
         core_1.Injectable(),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            http_1.HttpClient,
-            api_request_service_1.ApiRequestService,
-            router_1.Router])
+            router_1.Router,
+            product_service_1.ProductService,
+            forms_1.FormBuilder])
     ], ProductDetailComponent);
     return ProductDetailComponent;
 }());
@@ -937,14 +1146,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var product_service_1 = __webpack_require__("./src/app/shared/product.service.ts");
-var another_product_service_1 = __webpack_require__("./src/app/shared/another-product.service.ts");
 var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var product_service_1 = __webpack_require__("./src/app/service/product.service.ts");
 var ProductComponent = /** @class */ (function () {
-    function ProductComponent(routeInfo, productService, anotherService, el, http) {
+    function ProductComponent(routeInfo, productService, el, http) {
         this.routeInfo = routeInfo;
         this.productService = productService;
-        this.anotherService = anotherService;
         this.el = el;
         this.http = http;
         this.imgUrl = 'http://placehold.it/320x150';
@@ -952,33 +1159,13 @@ var ProductComponent = /** @class */ (function () {
         this.scrollChange = new core_1.EventEmitter();
     }
     ProductComponent.prototype.ngOnInit = function () {
-        // this.product = this.productService.getProduct();
-        // this.anotherProduct = this.anotherService.getProduct();
-        // this.products = [
-        //   new Product(1, '第一个商品', 1.99, 3.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(2, '第二个商品', 2.99, 2.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(3, '第三个商品', 3.99, 4.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(4, '第四个商品', 4.99, 1.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(5, '第五个商品', 5.99, 3.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(6, '第六个商品', 6.99, 2.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(7, '第七个商品', 4.99, 1.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(8, '第八个商品', 5.99, 3.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   new Product(9, '第九个商品', 6.99, 2.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）'),
-        //   this.product,
-        //   this.anotherProduct,
-        // ];
         var _this = this;
-        // this.routeInfo.params.subscribe((params: Params) => this.productId = params['id']);
-        // this.routeInfo.data.subscribe((data: {product: Product}) => {
-        //   this.productId = data.product.id;
-        //   this.productTitle = data.product.title;
-        // });
         this.url += "product/batch";
         this.http
             .request("GET", this.url, {
             responseType: "json",
             params: { "contentType": "application/json;charset=utf-8" }
-        }).subscribe(function (data) { return _this.products = data.valueOf(); });
+        }).subscribe(function (data) { _this.products = data.valueOf(); });
     };
     ProductComponent.prototype.onScroll = function () {
         this.scrollChange.next(this.el.nativeElement);
@@ -998,9 +1185,6 @@ var ProductComponent = /** @class */ (function () {
             selector: 'app-product',
             template: __webpack_require__("./src/app/components/product/product.component.html"),
             styles: [__webpack_require__("./src/app/components/product/product.component.css")],
-            providers: [{
-                    provide: product_service_1.ProductService, useClass: another_product_service_1.AnotherProductService
-                }]
         }),
         core_1.Directive({
             selector: '[appScroll]'
@@ -1008,7 +1192,6 @@ var ProductComponent = /** @class */ (function () {
         core_1.Injectable(),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
             product_service_1.ProductService,
-            another_product_service_1.AnotherProductService,
             core_1.ElementRef,
             http_1.HttpClient])
     ], ProductComponent);
@@ -1160,10 +1343,8 @@ var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.j
 var rxjs_1 = __webpack_require__("./node_modules/rxjs/Rx.js");
 __webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
 var user_info_service_1 = __webpack_require__("./src/app/service/user-info.service.ts");
-var app_config_1 = __webpack_require__("./app-config.ts");
 var ApiRequestService = /** @class */ (function () {
-    function ApiRequestService(appConfig, http, router, userInfoService) {
-        this.appConfig = appConfig;
+    function ApiRequestService(http, router, userInfoService) {
         this.http = http;
         this.router = router;
         this.userInfoService = userInfoService;
@@ -1223,14 +1404,101 @@ var ApiRequestService = /** @class */ (function () {
     };
     ApiRequestService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [app_config_1.AppConfig,
-            http_1.HttpClient,
+        __metadata("design:paramtypes", [http_1.HttpClient,
             router_1.Router,
             user_info_service_1.UserInfoService])
     ], ApiRequestService);
     return ApiRequestService;
 }());
 exports.ApiRequestService = ApiRequestService;
+
+
+/***/ }),
+
+/***/ "./src/app/service/product.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/catch.js");
+var api_request_service_1 = __webpack_require__("./src/app/service/api-request.service.ts");
+var ProductService = /** @class */ (function () {
+    function ProductService(http, apiRequest) {
+        this.http = http;
+        this.apiRequest = apiRequest;
+    }
+    ProductService.prototype.saveComment = function (value) {
+        this.url = "../product/comment";
+        return this.apiRequest.post(this.url, value);
+    };
+    ProductService.prototype.saveProduct = function (value) {
+        this.url = "../product/";
+        return this.apiRequest.post(this.url, value);
+    };
+    ProductService.prototype.updateProduct = function (value) {
+        this.url = "../product/";
+        return this.apiRequest.put(this.url, value);
+    };
+    ProductService.prototype.getOne = function (productId) {
+        this.url = "../product/single?id=" + productId;
+        return this.http
+            .request("GET", this.url, {
+            responseType: "json",
+            params: { "contentType": "application/json;charset=utf-8" }
+        });
+    };
+    ProductService.prototype.deleteById = function (value) {
+        this.url = "../product/?id=" + value;
+        return this.apiRequest.delete(this.url);
+    };
+    ProductService.prototype.getComment = function (value) {
+        this.url = "../product/comments?id=" + value;
+        return this.http
+            .request("GET", this.url, {
+            responseType: "json",
+            params: { "contentType": "application/json;charset=utf-8" }
+        });
+    };
+    ProductService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.HttpClient,
+            api_request_service_1.ApiRequestService])
+    ], ProductService);
+    return ProductService;
+}());
+exports.ProductService = ProductService;
+var httpMsg = /** @class */ (function () {
+    function httpMsg(info) {
+        this.info = info;
+    }
+    return httpMsg;
+}());
+exports.httpMsg = httpMsg;
+var Product = /** @class */ (function () {
+    function Product(id, title, price, url, remark, rating, comments) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.url = url;
+        this.remark = remark;
+        this.rating = rating;
+        this.comments = comments;
+    }
+    return Product;
+}());
+exports.Product = Product;
 
 
 /***/ }),
@@ -1305,85 +1573,6 @@ var UserInfoService = /** @class */ (function () {
     return UserInfoService;
 }());
 exports.UserInfoService = UserInfoService;
-
-
-/***/ }),
-
-/***/ "./src/app/shared/another-product.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var product_service_1 = __webpack_require__("./src/app/shared/product.service.ts");
-var AnotherProductService = /** @class */ (function () {
-    function AnotherProductService() {
-    }
-    AnotherProductService.prototype.getProduct = function () {
-        return new product_service_1.Product(10, '第十个商品', 1.99, 3.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）', ['电子产品', '硬件设备']);
-    };
-    AnotherProductService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [])
-    ], AnotherProductService);
-    return AnotherProductService;
-}());
-exports.AnotherProductService = AnotherProductService;
-
-
-/***/ }),
-
-/***/ "./src/app/shared/product.service.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var ProductService = /** @class */ (function () {
-    function ProductService() {
-    }
-    ProductService.prototype.getProduct = function () {
-        return new Product(10, '第十个商品', 3.99, 3.5, '【聚划算】倩碧小雏菊胭脂腮红（每个ID限购10件）', ['电子产品', '硬件设备']);
-    };
-    ProductService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [])
-    ], ProductService);
-    return ProductService;
-}());
-exports.ProductService = ProductService;
-var Product = /** @class */ (function () {
-    function Product(id, title, price, rating, desc, categories) {
-        this.id = id;
-        this.title = title;
-        this.price = price;
-        this.rating = rating;
-        this.desc = desc;
-        this.categories = categories;
-    }
-    return Product;
-}());
-exports.Product = Product;
 
 
 /***/ }),
