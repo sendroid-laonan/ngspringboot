@@ -37,6 +37,8 @@ public class MultiHttpScecurityConfig {
     private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[]{
             "/",
             "/index",
+            "/user/login",
+            "/login"
     };
 
 

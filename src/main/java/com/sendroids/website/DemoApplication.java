@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.annotation.OnEvent;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.sendroids.website.domain.ContactMsg;
 import com.sendroids.website.domain.MessageInfo;
 import org.apache.tomcat.jni.Socket;
 import org.springframework.boot.SpringApplication;
@@ -56,7 +57,7 @@ public class DemoApplication {
                 if (client != null) {
                     System.out.println("连接成功。clientId = " + client.getSessionId().toString());
                     client.joinRoom("1");
-                    server.getBroadcastOperations().sendEvent("status", "success");
+                    server.getBroadcastOperations().sendEvent("status", client.getSessionId().toString());
                 } else {
                     System.out.println("并没有人连接上。。。");
                     server.getBroadcastOperations().sendEvent("status", "failed");
@@ -85,6 +86,19 @@ public class DemoApplication {
                 server.getBroadcastOperations().sendEvent("message", message.toString().replace('\'','\"'));
             }
         });
+
+        // 添加事件监听
+        server.addEventListener("Broadcast information", ContactMsg.class, new DataListener<ContactMsg>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, ContactMsg message,
+                               AckRequest ackRequest)
+                    throws Exception {
+                System.out.println("收到发送一方的消息：" + message.toString().replace('\'','\"'));
+                server.getBroadcastOperations().sendEvent("Receive information", message.toString().replace('\'','\"'));
+                System.out.println("广播给同一房间的其他用户");
+            }
+        });
+
 
         /*
          * 断开连接
