@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.EventListener;
+import java.util.UUID;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -56,7 +57,7 @@ public class DemoApplication {
                 // 判断是否有客户端连接
                 if (client != null) {
                     System.out.println("连接成功。clientId = " + client.getSessionId().toString());
-                    client.joinRoom("1");
+                    client.joinRoom(client.getSessionId().toString());
                     server.getBroadcastOperations().sendEvent("status", client.getSessionId().toString());
                 } else {
                     System.out.println("并没有人连接上。。。");
@@ -87,14 +88,17 @@ public class DemoApplication {
             }
         });
 
-        // 添加事件监听
+        /**
+         * 添加发送信息事件监听，根据信息里面的sessionId向同一个房间里面的用户广播信息
+         */
         server.addEventListener("Broadcast information", ContactMsg.class, new DataListener<ContactMsg>() {
             @Override
             public void onData(SocketIOClient socketIOClient, ContactMsg message,
                                AckRequest ackRequest)
                     throws Exception {
                 System.out.println("收到发送一方的消息：" + message.toString().replace('\'','\"'));
-                server.getBroadcastOperations().sendEvent("Receive information", message.toString().replace('\'','\"'));
+                String sessionId = message.getSessionId();  //判断是否在同一个房间
+                server.getRoomOperations(sessionId).sendEvent("Receive information", message.toString().replace('\'', '\"'));
                 System.out.println("广播给同一房间的其他用户");
             }
         });

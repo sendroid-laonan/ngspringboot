@@ -26,9 +26,12 @@ public class ContactMsg {
 
     private String  sendDate;
 
+    private String sessionId;
+
     public String toString(){
         return "{'id':" + id + "," +
                 "'msg':\"" + msg + "\"," +
-                "'sendDate':\"" + sendDate + "\"}";
+                "'sendDate':\"" + sendDate + "\"," +
+                "'sessionId':\"" + sessionId + "\"}";
     }
 }
