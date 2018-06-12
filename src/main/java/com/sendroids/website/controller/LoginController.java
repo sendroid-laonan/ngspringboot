@@ -39,4 +39,13 @@ public class LoginController {
         }
         return msg;
     }
+
+    @GetMapping("/helloworld")
+    @ResponseBody
+    public HttpMsg helloWorld(){
+       String msg = "世界";
+        HttpMsg httpMsg = new HttpMsg();
+        httpMsg.setInfo(msg);
+        return httpMsg;
+    }
 }
