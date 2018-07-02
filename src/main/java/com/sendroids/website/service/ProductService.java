@@ -32,11 +32,11 @@ public class ProductService {
     }
 
     public Optional<Product> add(Product product){
-        return Optional.ofNullable(productRepository.save(product));
+        return Optional.of(productRepository.save(product));
     }
 
     public Optional<Product> update(Product product){
-        return Optional.ofNullable(productRepository.saveAndFlush(product));
+        return Optional.of(productRepository.saveAndFlush(product));
     }
 
     public void delete(long id){
@@ -44,6 +44,6 @@ public class ProductService {
     }
 
     public Optional<Comment> addComment(Comment comment){
-        return Optional.ofNullable(commentRepository.save(comment));
+        return Optional.of(commentRepository.save(comment));
     }
 }

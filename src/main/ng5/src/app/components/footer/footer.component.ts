@@ -12,7 +12,7 @@ export class FooterComponent implements OnInit {
 
   constructor() {
     this.year = 2018;
-    this.company = '广州市晟卓软件科技有限责任公司';
+    this.company = '没想到吧';
   }
 
   ngOnInit() {

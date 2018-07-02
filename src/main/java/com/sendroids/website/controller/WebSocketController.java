@@ -7,13 +7,8 @@ import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.sendroids.website.domain.ContactMsg;
 import com.sendroids.website.domain.MessageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -126,10 +121,5 @@ public class WebSocketController {
 
         //启动服务
         server.start();
-    }
-
-    @GetMapping("/join/{userId}")
-    public void joinRoom(@PathVariable("userId") long userId){
-
     }
 }

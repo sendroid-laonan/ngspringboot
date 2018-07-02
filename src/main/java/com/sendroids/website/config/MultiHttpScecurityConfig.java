@@ -30,7 +30,9 @@ public class MultiHttpScecurityConfig {
 
     private static final String[] UNSECURED_RESOURCE_LIST = new String[]{
             "/dist/**.js",
-            "/dist/**"
+            "/dist/**",
+            "/product/**",
+            "/../**"
 
     };
 
@@ -124,7 +126,7 @@ public class MultiHttpScecurityConfig {
                     .authorizeRequests()
                     .antMatchers(UNAUTHORIZED_RESOURCE_LIST)
                     .permitAll()
-                    .antMatchers("/git", "/manage", "/manage/**", "/product/**", "/user/**")
+                    .antMatchers("/git", "/manage", "/manage/**", "/product/**", "/user/**", "/dist/**")
                     .permitAll()
 //                    .antMatchers("/town/**", "/town")
 //                    .hasRole(Authority.Role.USER.toString())

@@ -24,6 +24,8 @@ public class ContactMsg {
 
     private String msg;
 
+    private String image;
+
     private String  sendDate;
 
     private String sessionId;
@@ -31,6 +33,7 @@ public class ContactMsg {
     public String toString(){
         return "{'id':" + id + "," +
                 "'msg':\"" + msg + "\"," +
+                "'image':\"" + image + "\"," +
                 "'sendDate':\"" + sendDate + "\"," +
                 "'sessionId':\"" + sessionId + "\"}";
     }
